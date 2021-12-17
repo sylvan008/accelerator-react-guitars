@@ -2,7 +2,7 @@ import MainHeader from '../../main-header/main-header';
 import MainFooter from '../../main-footer/main-footer';
 
 type PropsType = {
-  children: JSX.Element[],
+  children: JSX.Element | JSX.Element[],
 };
 
 function MainLayout(props: PropsType): JSX.Element {
