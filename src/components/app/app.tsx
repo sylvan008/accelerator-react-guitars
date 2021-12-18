@@ -6,7 +6,7 @@ import PageCatalog from '../page-catalog/page-catalog';
 function App(): JSX.Element {
   return (
     <Router history={browserHistory}>
-      <Route exact path={AppRoute.Main}>
+      <Route exact path={AppRoute.Catalog}>
         <PageCatalog />
       </Route>
     </Router>
