@@ -1,5 +1,6 @@
 import {Guitar} from '../../types/guitar';
 import {replaceImagePath} from '../../utils/utils';
+import CardRating from '../card-rating/card-rating';
 
 type PropsType = {
   guitar: Guitar,
@@ -17,26 +18,7 @@ function CatalogCard(props: PropsType): JSX.Element {
     <div className="product-card">
       <img src={replaceImagePath(previewImg)} width="75" height="190" alt={name}/>
       <div className="product-card__info">
-        <div className="rate product-card__rate" aria-hidden="true">
-          <span className="visually-hidden">Рейтинг:</span>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"/>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-star"/>
-          </svg>
-          <span className="rate__count">{rating}</span>
-          <span className="rate__message" />
-        </div>
+        <CardRating rating={rating} />
         <p className="product-card__title">{name}</p>
         <p className="product-card__price">
           <span className="visually-hidden">Цена:</span>
