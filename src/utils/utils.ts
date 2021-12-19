@@ -1,3 +1,5 @@
+import {Guitar} from '../types/guitar';
+
 const IMAGE = 'img';
 const CLIENT_IMAGE = 'img/content';
 
@@ -6,6 +8,21 @@ const CLIENT_IMAGE = 'img/content';
  */
 function createRangeList(from: number, to: number) {
   return Array.from({length: to}, (_, index) => index + from);
+}
+
+/**
+ * Возвращает список гитар удовлетворяющих поиску
+ */
+function findGuitars(guitarList: Guitar[], search: string) {
+  if (search === '' || guitarList.length === 0) {
+    return [];
+  }
+
+  return guitarList.filter((guitar) => {
+    const name = guitar.name.toLowerCase();
+    const searchLower = search.toLowerCase();
+    return name.includes(searchLower);
+  });
 }
 
 /**
@@ -20,5 +37,6 @@ function replaceImagePath(receivedPath:string, replace = IMAGE, clientPath = CLI
 
 export {
   createRangeList,
+  findGuitars,
   replaceImagePath
 };
