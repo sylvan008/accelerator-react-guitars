@@ -1,4 +1,5 @@
 import {Guitar} from '../../types/guitar';
+import './search-result-list.style.css';
 
 type PropsType = {
   searchResult: Guitar[],
