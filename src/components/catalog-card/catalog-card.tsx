@@ -1,5 +1,6 @@
 import {Guitar} from '../../types/guitar';
 import {replaceImagePath} from '../../utils/utils';
+import {formatPrice} from '../../utils/format';
 import CardRating from '../card-rating/card-rating';
 
 type PropsType = {
@@ -22,7 +23,7 @@ function CatalogCard(props: PropsType): JSX.Element {
         <p className="product-card__title">{name}</p>
         <p className="product-card__price">
           <span className="visually-hidden">Цена:</span>
-          {price} ₽
+          {formatPrice(price)}
         </p>
       </div>
       <div className="product-card__buttons">
