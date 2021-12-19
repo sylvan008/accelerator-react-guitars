@@ -1,11 +1,15 @@
+import {useSelector} from 'react-redux';
+import {getGuitars} from '../../store/catalog-process/selectors';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CatalogFilter from '../catalog-filter/catalog-filter';
 import CatalogSort from '../catalog-sort/catalog-sort';
-import CatalogCard from '../catalog-card/catalog-card';
 import Pagination from '../pagination/Pagination';
+import CatalogList from '../catalog-list/catalog-list';
 
 function PageCatalog(): JSX.Element {
+  const guitars = useSelector(getGuitars);
+
   return (
     <MainLayout>
       <main className="page-content">
@@ -15,17 +19,7 @@ function PageCatalog(): JSX.Element {
           <div className="catalog">
             <CatalogFilter />
             <CatalogSort />
-            <div className="cards catalog__cards">
-              <CatalogCard />
-              <CatalogCard />
-              <CatalogCard />
-              <CatalogCard />
-              <CatalogCard />
-              <CatalogCard />
-              <CatalogCard />
-              <CatalogCard />
-              <CatalogCard />
-            </div>
+            <CatalogList guitars={guitars} />
             <Pagination />
           </div>
         </div>
