@@ -1,4 +1,6 @@
 import {Guitar} from '../types/guitar';
+import {Direction, SortType} from '../types/sort';
+import {SortingDirection} from './const/sorting';
 
 const IMAGE = 'img';
 const CLIENT_IMAGE = 'img/content';
@@ -35,8 +37,29 @@ function replaceImagePath(receivedPath:string, replace = IMAGE, clientPath = CLI
   return receivedPath.replace(replace, clientPath);
 }
 
+/**
+ * Сортирует список гитар по переданной характеристике, по убыванию или возрастанию
+ */
+function sortGuitars(guitarList: Guitar[], type: SortType, direction: Direction) {
+  if (!type) {
+    return guitarList;
+  }
+
+  const list = guitarList.slice();
+
+  const sort = (guitarA: Guitar, guitarB: Guitar) => {
+    if (direction === SortingDirection.DOWN) {
+      [guitarB, guitarA] = [guitarA, guitarB];
+    }
+    return guitarA[type] - guitarB[type];
+  };
+
+  return list.sort(sort);
+}
+
 export {
   createRangeList,
   findGuitars,
-  replaceImagePath
+  replaceImagePath,
+  sortGuitars
 };
