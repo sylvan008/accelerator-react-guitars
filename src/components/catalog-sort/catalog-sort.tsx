@@ -1,31 +1,51 @@
-function CatalogSort(): JSX.Element {
+import {SortingDirection} from '../../utils/const/sorting';
+import SortButton from '../sort-button/sort-button';
+import {Direction, SortItem, SortType} from '../../types/sort';
+import SortDirectionButton from '../sort-direction-button/sort-direction-button';
+
+type PropsType = {
+  activeType: SortType,
+  activeDirection: Direction,
+  onSortTypeChange: (type: SortType) => void,
+  onSortDirectionChange: (direction: Direction) => void,
+  sortingItems: SortItem[],
+};
+
+function CatalogSort(props: PropsType): JSX.Element {
+  const {
+    activeDirection,
+    activeType,
+    onSortDirectionChange,
+    onSortTypeChange,
+    sortingItems,
+  } = props;
+
+  const sortDirectionChangeHandler = (direction: Direction) => onSortDirectionChange(direction);
+
   return (
     <div className="catalog-sort">
       <h2 className="catalog-sort__title">Сортировать:</h2>
       <div className="catalog-sort__type">
-        <button
-          className="catalog-sort__type-button catalog-sort__type-button--active"
-          aria-label="по цене"
-          tabIndex={-1}
-        >
-          по цене
-        </button>
-        <button
-          className="catalog-sort__type-button"
-          aria-label="по популярности"
-        >
-          по популярности
-        </button>
+
+        {sortingItems.map((sortType) => (
+          <SortButton
+            isActive={sortType.type === activeType}
+            key={sortType.type}
+            onClick={onSortTypeChange}
+            sortItem={sortType}
+          />
+        ))}
       </div>
       <div className="catalog-sort__order">
-        <button
-          className="catalog-sort__order-button catalog-sort__order-button--up catalog-sort__order-button--active"
-          aria-label="По возрастанию"
-          tabIndex={-1}
+        <SortDirectionButton
+          direction={SortingDirection.UP}
+          isActive={SortingDirection.UP === activeDirection}
+          onCLick={sortDirectionChangeHandler}
         />
-        <button
-          className="catalog-sort__order-button catalog-sort__order-button--down"
-          aria-label="По убыванию"
+        <SortDirectionButton
+          direction={SortingDirection.DOWN}
+          isActive={SortingDirection.DOWN === activeDirection}
+          onCLick={sortDirectionChangeHandler}
         />
       </div>
     </div>
