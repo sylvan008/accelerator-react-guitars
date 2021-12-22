@@ -1,4 +1,39 @@
+import React, {ChangeEvent, useState, Dispatch, useEffect, useMemo} from 'react';
+import {guitarKindFilterItems, GuitarStringOptions, guitarStringsFilterItems} from '../../utils/const/filter';
+import {GuitarType} from '../../types/guitar';
+import {GuitarStringCountType} from '../../types/filter';
+import FilterCheckbox from '../filter-checkbox/filter-checkbox';
+
+type LocalState = GuitarType[] | string[];
+
 function CatalogFilter(): JSX.Element {
+  const [checkedGuitarTypes, setCheckedGuitarTypes] = useState<GuitarType[]>([]);
+  const [checkedGuitarStrings, setCheckedGuitarStrings] = useState<GuitarStringCountType[]>([]);
+
+  const guitarStringsSet = useMemo<Set<GuitarStringCountType>>(
+    () => new Set(checkedGuitarTypes.flatMap((guitarType) => GuitarStringOptions[guitarType])),
+    [checkedGuitarTypes],
+  );
+  const isEmptyGuitarStringsSet = guitarStringsSet.size === 0;
+
+  useEffect(() => {
+    const filterStringsTypes = (checkedStrings: GuitarStringCountType[]): GuitarStringCountType[] =>
+      checkedStrings.filter((stringsType) => guitarStringsSet.has(stringsType));
+
+    setCheckedGuitarStrings((prevState) => filterStringsTypes(prevState));
+  }, [guitarStringsSet]);
+
+  const onFilterTypeChange = <S extends LocalState, U extends Dispatch<S>>(state: S, setState: U) =>
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const {checked, value}: {checked: boolean, value: unknown} = event.target;
+
+      const newState = checked
+        ? [...state, value] as S
+        : state.filter((type) => type !== value) as S;
+
+      setState(newState);
+    };
+
   return (
     <form className="catalog-filter">
       <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
@@ -17,37 +52,41 @@ function CatalogFilter(): JSX.Element {
       </fieldset>
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Тип гитар</legend>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="acoustic" name="acoustic"/>
-          <label htmlFor="acoustic">Акустические гитары</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="electric" name="electric" checked/>
-          <label htmlFor="electric">Электрогитары</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="ukulele" name="ukulele" checked/>
-          <label htmlFor="ukulele">Укулеле</label>
-        </div>
+
+        {guitarKindFilterItems.map((guitarKindItem) => {
+          const {label, type} = guitarKindItem;
+          return (
+            <FilterCheckbox
+              isChecked={checkedGuitarTypes.includes(type)}
+              key={type}
+              label={label}
+              name={type}
+              onChange={onFilterTypeChange(checkedGuitarTypes, setCheckedGuitarTypes)}
+              value={type}
+            />
+          );
+        })}
+
       </fieldset>
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Количество струн</legend>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" checked/>
-          <label htmlFor="4-strings">4</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="6-strings" name="6-strings" checked/>
-          <label htmlFor="6-strings">6</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="7-strings" name="7-strings"/>
-          <label htmlFor="7-strings">7</label>
-        </div>
-        <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="12-strings" name="12-strings" disabled/>
-          <label htmlFor="12-strings">12</label>
-        </div>
+
+        {guitarStringsFilterItems.map((guitarsStringItem) => {
+          const {label, type} = guitarsStringItem;
+
+          return (
+            <FilterCheckbox
+              isChecked={checkedGuitarStrings.includes(type)}
+              isDisabled={!isEmptyGuitarStringsSet && !guitarStringsSet.has(type)}
+              key={type}
+              label={label}
+              name={type}
+              onChange={onFilterTypeChange(checkedGuitarStrings, setCheckedGuitarStrings)}
+              value={type}
+            />
+          );
+        })}
+
       </fieldset>
     </form>
   );
