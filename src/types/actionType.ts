@@ -4,6 +4,7 @@ import {AxiosInstance} from 'axios';
 
 export enum ActionType {
   SetGuitars = 'catalog/set_guitars',
+  SetPriceBounds = 'catalog/set_price_bounds',
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
