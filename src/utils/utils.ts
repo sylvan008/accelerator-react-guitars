@@ -1,6 +1,7 @@
 import {Guitar} from '../types/guitar';
 import {Direction, SortType} from '../types/sort';
-import {SortingDirection} from './const/sorting';
+import {SortingDirection, SortingType} from './const/sorting';
+import {PriceBounds} from '../types/store';
 
 const IMAGE = 'img';
 const CLIENT_IMAGE = 'img/content';
@@ -50,6 +51,18 @@ function findGuitars(guitarList: Guitar[], search: string) {
 }
 
 /**
+ * Возвращает минимальную и максимальную цены гитар
+ */
+function getMinMaxPriceValue(guitars: Guitar[]): PriceBounds {
+  const sortedGuitarsByPriceAscending = sortGuitars(guitars, SortingType.Price, SortingDirection.UP);
+  const minValue = sortedGuitarsByPriceAscending[0]
+    .price;
+  const maxValue = sortedGuitarsByPriceAscending[sortedGuitarsByPriceAscending.length - 1]
+    .price;
+  return [minValue, maxValue];
+}
+
+/**
  * Заменяет путь к изображениям в данных полученных от сервера
  * Дефолтные значения:
  * replace = img
@@ -84,6 +97,7 @@ export {
   checkMinPrice,
   createRangeList,
   findGuitars,
+  getMinMaxPriceValue,
   replaceImagePath,
   sortGuitars
 };
