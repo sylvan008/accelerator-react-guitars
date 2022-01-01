@@ -6,6 +6,28 @@ const IMAGE = 'img';
 const CLIENT_IMAGE = 'img/content';
 
 /**
+ * Проверяет что текущее вводимое значение не меньше минимальной стоимости товара
+ * и не более текущей выбранной максимальной стоимости.
+ */
+function checkMinPrice(priceValue: number, priceMinBound: number, priceMaxValue: number) {
+  return Math.min(
+    Math.max(priceMinBound, priceValue),
+    priceMaxValue,
+  );
+}
+
+/**
+ * Проверяет что текущее вводимое значение не более максимальной стоимости товара
+ * и не меньше текущей выбранной минимальной стоимости.
+ */
+function checkMaxPrice(priceValue: number, priceMaxBound: number, priceMinValue: number) {
+  return Math.max(
+    Math.min(priceMaxBound, priceValue),
+    priceMinValue,
+  );
+}
+
+/**
  * Создаёт заполненный массив [from, to]
  */
 function createRangeList(from: number, to: number) {
@@ -58,6 +80,8 @@ function sortGuitars(guitarList: Guitar[], type: SortType, direction: Direction)
 }
 
 export {
+  checkMaxPrice,
+  checkMinPrice,
   createRangeList,
   findGuitars,
   replaceImagePath,
