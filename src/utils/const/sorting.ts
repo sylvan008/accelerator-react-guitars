@@ -5,6 +5,11 @@ const SortingDirection = ({
   DOWN: 'DOWN',
 } as const);
 
+const SortingType = ({
+  Price: 'price',
+  Rating: 'rating',
+} as const);
+
 const SortingLabel = {
   [SortingDirection.UP]: 'По возрастанию',
   [SortingDirection.DOWN]: 'По убыванию',
@@ -12,11 +17,11 @@ const SortingLabel = {
 
 const sortingItems: SortItem[] = [
   {
-    type: 'price',
+    type: SortingType.Price,
     label: 'по цене',
   },
   {
-    type: 'rating',
+    type: SortingType.Rating,
     label: 'по популярности',
   },
 ];
@@ -24,5 +29,6 @@ const sortingItems: SortItem[] = [
 export {
   SortingLabel,
   SortingDirection,
-  sortingItems
+  sortingItems,
+  SortingType
 };

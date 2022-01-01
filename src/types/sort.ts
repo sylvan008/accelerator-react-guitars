@@ -1,6 +1,6 @@
-import {SortingDirection} from '../utils/const/sorting';
+import {SortingDirection, SortingType} from '../utils/const/sorting';
 
-export type SortType = 'price' | 'rating' | null;
+export type SortType = Lowercase<keyof typeof SortingType> | null;
 
 export type SortItem = {
   type: SortType,
