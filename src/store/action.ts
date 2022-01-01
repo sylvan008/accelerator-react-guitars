@@ -1,7 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import {ActionType} from '../types/actionType';
 import {Guitar} from '../types/guitar';
-import {PriceBounds} from '../types/store';
 
 const setGuitars = createAction(
   ActionType.SetGuitars,
@@ -10,12 +9,7 @@ const setGuitars = createAction(
   }),
 );
 
-const setPriceBounds = createAction(
-  ActionType.SetPriceBounds,
-  (priceBounds: PriceBounds) => ({
-    payload: priceBounds,
-  }),
-);
+const setPriceBounds = createAction(ActionType.SetPriceBounds);
 
 export {
   setGuitars,
