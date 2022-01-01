@@ -2,6 +2,7 @@ import {Guitar} from '../types/guitar';
 import {Direction, SortType} from '../types/sort';
 import {SortingDirection, SortingType} from './const/sorting';
 import {PriceBounds} from '../types/store';
+import {KeyboardEvent} from 'react';
 
 const IMAGE = 'img';
 const CLIENT_IMAGE = 'img/content';
@@ -63,6 +64,13 @@ function getMinMaxPriceValue(guitars: Guitar[]): PriceBounds {
 }
 
 /**
+ * Проверяет что нажатая кнопка является Enter
+ */
+function isEnterKey(event: KeyboardEvent) {
+  return event.key === 'Enter';
+}
+
+/**
  * Заменяет путь к изображениям в данных полученных от сервера
  * Дефолтные значения:
  * replace = img
@@ -96,6 +104,7 @@ export {
   checkMaxPrice,
   checkMinPrice,
   createRangeList,
+  isEnterKey,
   findGuitars,
   getMinMaxPriceValue,
   replaceImagePath,
