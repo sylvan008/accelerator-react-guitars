@@ -8,4 +8,5 @@ export type PriceBounds = [MinValue, MaxValue];
 export type Catalog = {
   guitars: Guitar[],
   priceBounds: PriceBounds,
+  isCatalogLoad: boolean,
 };

@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useSelector} from 'react-redux';
-import {getGuitars} from '../../store/catalog-process/selectors';
+import {getGuitars, getIsCatalogLoad} from '../../store/catalog-process/selectors';
 import {Direction, SortType} from '../../types/sort';
 import {SortingDirection, sortingItems} from '../../utils/const/sorting';
 import {sortGuitars} from '../../utils/utils';
@@ -10,10 +10,12 @@ import CatalogFilter from '../catalog-filter/catalog-filter';
 import CatalogSort from '../catalog-sort/catalog-sort';
 import Pagination from '../pagination/Pagination';
 import CatalogList from '../catalog-list/catalog-list';
+import Loader from '../loader/loader';
 
 const FIRST_ITEM = 0;
 
 function PageCatalog(): JSX.Element {
+  const isCatalogLoad = useSelector(getIsCatalogLoad);
   const guitars = useSelector(getGuitars);
   const [sortType, setSortType] = useState<SortType>(null);
   const [sortDirection, setSortDirection] = useState<Direction>(null);
@@ -32,6 +34,10 @@ function PageCatalog(): JSX.Element {
       setSortType(sortingItems[FIRST_ITEM].type);
     }
   };
+
+  if (!isCatalogLoad) {
+    return <Loader />;
+  }
 
   return (
     <MainLayout>

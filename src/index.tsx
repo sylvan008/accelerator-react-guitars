@@ -6,7 +6,7 @@ import {createApi} from './services/api';
 import {rootReducer} from './store/root-reducer';
 import {loadGuitars} from './store/api-action';
 import App from './components/app/app';
-import {setPriceBounds} from './store/action';
+import {setCatalogLoad, setPriceBounds} from './store/action';
 
 const api = createApi();
 const store = configureStore({
@@ -19,7 +19,10 @@ const store = configureStore({
 });
 
 store.dispatch(loadGuitars())
-  .then(() => store.dispatch(setPriceBounds()));
+  .then(() => {
+    store.dispatch(setPriceBounds());
+    store.dispatch(setCatalogLoad());
+  });
 
 ReactDOM.render(
   <React.StrictMode>

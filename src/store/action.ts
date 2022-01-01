@@ -11,7 +11,10 @@ const setGuitars = createAction(
 
 const setPriceBounds = createAction(ActionType.SetPriceBounds);
 
+const setCatalogLoad = createAction(ActionType.SetCatalogLoad);
+
 export {
   setGuitars,
+  setCatalogLoad,
   setPriceBounds
 };
