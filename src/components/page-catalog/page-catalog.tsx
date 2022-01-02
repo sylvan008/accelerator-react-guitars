@@ -1,8 +1,6 @@
-import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getGuitars, getIsCatalogLoad} from '../../store/catalog-process/selectors';
-import {Direction, SortType} from '../../types/sort';
-import {SortDirection, sortingItems} from '../../utils/const/sorting';
+import {sortingItems} from '../../utils/const/sorting';
 import {sortGuitars} from '../../utils/utils';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
@@ -11,29 +9,20 @@ import CatalogSort from '../catalog-sort/catalog-sort';
 import Pagination from '../pagination/Pagination';
 import CatalogList from '../catalog-list/catalog-list';
 import Loader from '../loader/loader';
-
-const FIRST_ITEM = 0;
+import {useSort} from '../../hooks/use-sort';
 
 function PageCatalog(): JSX.Element {
   const isCatalogLoad = useSelector(getIsCatalogLoad);
   const guitars = useSelector(getGuitars);
-  const [sortType, setSortType] = useState<SortType>(null);
-  const [sortDirection, setSortDirection] = useState<Direction>(null);
+
+  const [
+    sortType,
+    sortDirection,
+    onSortTypeChange,
+    onSortDirectionChange,
+  ] = useSort();
 
   const sortedList = sortGuitars(guitars, sortType, sortDirection);
-
-  const onSortTypeChange = (type: SortType) => {
-    setSortType(type);
-    if (!sortDirection) {
-      setSortDirection(SortDirection.ASC);
-    }
-  };
-  const onSortDirectionChange = (direction: Direction) => {
-    setSortDirection(direction);
-    if (!sortType) {
-      setSortType(sortingItems[FIRST_ITEM].type);
-    }
-  };
 
   if (!isCatalogLoad) {
     return <Loader />;
