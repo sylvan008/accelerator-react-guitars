@@ -1,4 +1,4 @@
-import {SortingDirection} from '../../utils/const/sorting';
+import {SortDirection} from '../../utils/const/sorting';
 import SortButton from '../sort-button/sort-button';
 import {Direction, SortItem, SortType} from '../../types/sort';
 import SortDirectionButton from '../sort-direction-button/sort-direction-button';
@@ -38,13 +38,13 @@ function CatalogSort(props: PropsType): JSX.Element {
       </div>
       <div className="catalog-sort__order">
         <SortDirectionButton
-          direction={SortingDirection.UP}
-          isActive={SortingDirection.UP === activeDirection}
+          direction={SortDirection.ASC}
+          isActive={SortDirection.ASC === activeDirection}
           onCLick={sortDirectionChangeHandler}
         />
         <SortDirectionButton
-          direction={SortingDirection.DOWN}
-          isActive={SortingDirection.DOWN === activeDirection}
+          direction={SortDirection.DESC}
+          isActive={SortDirection.DESC === activeDirection}
           onCLick={sortDirectionChangeHandler}
         />
       </div>

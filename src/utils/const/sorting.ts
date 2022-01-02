@@ -1,8 +1,8 @@
 import {SortItem} from '../../types/sort';
 
-const SortingDirection = ({
-  UP: 'UP',
-  DOWN: 'DOWN',
+const SortDirection = ({
+  ASC: 'ASC',
+  DESC: 'DESC',
 } as const);
 
 const SortingType = ({
@@ -11,8 +11,8 @@ const SortingType = ({
 } as const);
 
 const SortingLabel = {
-  [SortingDirection.UP]: 'По возрастанию',
-  [SortingDirection.DOWN]: 'По убыванию',
+  [SortDirection.ASC]: 'По возрастанию',
+  [SortDirection.DESC]: 'По убыванию',
 };
 
 const sortingItems: SortItem[] = [
@@ -28,7 +28,7 @@ const sortingItems: SortItem[] = [
 
 export {
   SortingLabel,
-  SortingDirection,
+  SortDirection,
   sortingItems,
   SortingType
 };

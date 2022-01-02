@@ -1,12 +1,12 @@
 import {Direction} from '../../types/sort';
-import {SortingLabel, SortingDirection} from '../../utils/const/sorting';
+import {SortingLabel, SortDirection} from '../../utils/const/sorting';
 import {TabIndex} from '../../utils/const/tab-index';
 
 const DIRECTION_ACTIVE_CLASS = 'catalog-sort__order-button--active';
 
 const DirectionClass = {
-  [SortingDirection.UP]: 'catalog-sort__order-button--up',
-  [SortingDirection.DOWN]: 'catalog-sort__order-button--down',
+  [SortDirection.ASC]: 'catalog-sort__order-button--up',
+  [SortDirection.DESC]: 'catalog-sort__order-button--down',
 };
 
 type PropsType = {

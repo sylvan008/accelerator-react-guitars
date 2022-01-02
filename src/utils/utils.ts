@@ -1,6 +1,6 @@
 import {Guitar} from '../types/guitar';
 import {Direction, SortType} from '../types/sort';
-import {SortingDirection, SortingType} from './const/sorting';
+import {SortDirection, SortingType} from './const/sorting';
 import {PriceBounds} from '../types/store';
 import {KeyboardEvent} from 'react';
 
@@ -55,7 +55,7 @@ function findGuitars(guitarList: Guitar[], search: string) {
  * Возвращает минимальную и максимальную цены гитар
  */
 function getMinMaxPriceValue(guitars: Guitar[]): PriceBounds {
-  const sortedGuitarsByPriceAscending = sortGuitars(guitars, SortingType.Price, SortingDirection.UP);
+  const sortedGuitarsByPriceAscending = sortGuitars(guitars, SortingType.Price, SortDirection.ASC);
   const minValue = sortedGuitarsByPriceAscending[0]
     .price;
   const maxValue = sortedGuitarsByPriceAscending[sortedGuitarsByPriceAscending.length - 1]
@@ -91,7 +91,7 @@ function sortGuitars(guitarList: Guitar[], type: SortType, direction: Direction)
   const list = guitarList.slice();
 
   const sort = (guitarA: Guitar, guitarB: Guitar) => {
-    if (direction === SortingDirection.DOWN) {
+    if (direction === SortDirection.DESC) {
       [guitarB, guitarA] = [guitarA, guitarB];
     }
     return guitarA[type] - guitarB[type];

@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getGuitars, getIsCatalogLoad} from '../../store/catalog-process/selectors';
 import {Direction, SortType} from '../../types/sort';
-import {SortingDirection, sortingItems} from '../../utils/const/sorting';
+import {SortDirection, sortingItems} from '../../utils/const/sorting';
 import {sortGuitars} from '../../utils/utils';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
@@ -25,7 +25,7 @@ function PageCatalog(): JSX.Element {
   const onSortTypeChange = (type: SortType) => {
     setSortType(type);
     if (!sortDirection) {
-      setSortDirection(SortingDirection.UP);
+      setSortDirection(SortDirection.ASC);
     }
   };
   const onSortDirectionChange = (direction: Direction) => {
