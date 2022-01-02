@@ -1,26 +1,15 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useState
-} from 'react';
-import {useSelector} from 'react-redux';
-import {getGuitars} from '../../store/catalog-process/selectors';
-import {Guitar} from '../../types/guitar';
-import {findGuitars} from '../../utils/utils';
+import {useSearch} from '../../hooks/use-search';
 import SearchResultList from '../search-result-list/search-result-list';
 
 function Search(): JSX.Element {
-  const guitars = useSelector(getGuitars);
-  const [searchString, setSearchString] = useState('');
-  const [foundedGuitars, setFoundedGuitars] = useState<Guitar[]>([]);
+  const [
+    foundedGuitars,
+    searchString,
+    onSearchInputChange,
+    onSearchFormSubmit,
+  ] = useSearch();
 
-  const onSearchInputChange = (evt: ChangeEvent<HTMLInputElement>) => setSearchString(evt.target.value);
-  const onSearchFormSubmit = (evt: FormEvent) => evt.preventDefault();
-
-  useEffect(() => {
-    setFoundedGuitars(findGuitars(guitars, searchString));
-  }, [searchString, guitars]);
+  const isSearching = searchString.length !== 0;
 
   return (
     <div className="form-search">
@@ -45,7 +34,7 @@ function Search(): JSX.Element {
         />
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>
-      {searchString.length !== 0 && <SearchResultList searchResult={foundedGuitars} />}
+      {isSearching && <SearchResultList searchResult={foundedGuitars} />}
     </div>
   );
 }
