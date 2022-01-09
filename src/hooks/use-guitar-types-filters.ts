@@ -24,6 +24,9 @@ function useGuitarTypesFilters(): ReturnType {
   );
 
   useEffect(() => {
+    if (guitarStringsSet.size === 0) {
+      return;
+    }
     const filterStringsTypes = (checkedStrings: GuitarStringCountType[]): GuitarStringCountType[] =>
       checkedStrings.filter((stringsType) => guitarStringsSet.has(stringsType));
 
