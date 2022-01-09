@@ -1,8 +1,7 @@
 import {useLocation} from 'react-router-dom';
 import {browserHistory} from '../services/browser-history';
 import {useCallback, useMemo} from 'react';
-
-type SearchRecord = Record<string, string>;
+import {SearchRecord} from '../types/search-query';
 
 type ReturnType = [
   searchParams: URLSearchParams,
@@ -17,6 +16,10 @@ function useSearchParams(): ReturnType {
 
   const setSearchParams = (params: Record<string, string>) => {
     Object.entries(params).forEach(([name, value]) => {
+      if (value === '') {
+        searchParams.delete(name);
+        return;
+      }
       searchParams.set(name, value);
     });
 
