@@ -64,7 +64,7 @@ function PageCatalog(): JSX.Element {
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
           <Breadcrumbs />
           <div className="catalog">
-            <CatalogFilter />
+            <CatalogFilter setSearchParams={setSearchParams} />
             <CatalogSort
               activeDirection={sortDirection}
               activeType={sortType}

@@ -1,10 +1,17 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {guitarKindFilterItems, guitarStringsFilterItems} from '../../utils/const/filter';
-import FilterCheckbox from '../filter-checkbox/filter-checkbox';
 import {useGuitarTypesFilters} from '../../hooks/use-guitar-types-filters';
 import {usePriceValueFilter} from '../../hooks/use-price-value-filter';
+import {SearchRecord} from '../../types/search-query';
+import {SearchParam} from '../../utils/const/searchParam';
+import FilterCheckbox from '../filter-checkbox/filter-checkbox';
 
-function CatalogFilter(): JSX.Element {
+type PropsType = {
+  setSearchParams: (params: SearchRecord) => void,
+};
+
+function CatalogFilter(props: PropsType): JSX.Element {
+  const {setSearchParams} = props;
   const inputMinPriceRef = useRef<HTMLInputElement>(null);
   const inputMaxPriceRef = useRef<HTMLInputElement>(null);
 
@@ -24,6 +31,13 @@ function CatalogFilter(): JSX.Element {
     onGuitarTypeChange,
     onGuitarStringChange,
   ] = useGuitarTypesFilters();
+
+  useEffect(() => {
+    setSearchParams({
+      [SearchParam.Type]: checkedGuitarTypes.join(' '),
+      [SearchParam.Strings]: checkedGuitarStrings.join(' '),
+    });
+  }, [checkedGuitarTypes, checkedGuitarStrings, setSearchParams]);
 
   const isEmptyGuitarStringsSet = guitarStringsSet.size === 0;
 
