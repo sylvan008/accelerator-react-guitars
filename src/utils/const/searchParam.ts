@@ -5,4 +5,5 @@ export const SearchParam = ({
   PriceLte: 'price_lte',
   Sort: 'sort',
   Type: 'type',
+  Strings: 'strings',
 } as const);
