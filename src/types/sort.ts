@@ -1,6 +1,6 @@
 import {SortDirection, SortingType} from '../utils/const/sorting';
 
-export type SortType = Lowercase<keyof typeof SortingType> | null;
+export type SortType = Lowercase<keyof typeof SortingType>;
 
 export type SortItem = {
   type: SortType,
@@ -9,4 +9,4 @@ export type SortItem = {
 
 export type Order = keyof typeof SortDirection | null;
 
-export type Direction = keyof typeof SortDirection | null;
+export type Direction = keyof typeof SortDirection;

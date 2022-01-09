@@ -4,8 +4,8 @@ import {Direction, SortItem, SortType} from '../../types/sort';
 import SortDirectionButton from '../sort-direction-button/sort-direction-button';
 
 type PropsType = {
-  activeType: SortType,
-  activeDirection: Direction,
+  activeType: SortType | null,
+  activeDirection: Direction | null,
   onSortTypeChange: (type: SortType) => void,
   onSortDirectionChange: (direction: Direction) => void,
   sortingItems: SortItem[],

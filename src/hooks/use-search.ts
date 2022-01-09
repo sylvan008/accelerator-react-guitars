@@ -11,13 +11,22 @@ type ReturnType = [
   onSearchFormSubmit: (evt: FormEvent) => void,
 ];
 
-function useSearch(): ReturnType {
+function useSearch(nameSearch: string, submitCallback?: (searchData: string) => void): ReturnType {
   const guitars = useSelector(getGuitars);
-  const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState(nameSearch);
   const [foundedGuitars, setFoundedGuitars] = useState<Guitar[]>([]);
 
-  const onSearchInputChange = (evt: ChangeEvent<HTMLInputElement>) => setSearchString(evt.target.value);
-  const onSearchFormSubmit = (evt: FormEvent) => evt.preventDefault();
+  const onSearchInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setSearchString(evt.target.value);
+  };
+  const onSearchFormSubmit = (evt: FormEvent) => {
+    evt.preventDefault();
+    if (typeof submitCallback === 'function') {
+      submitCallback(searchString);
+    }
+    setSearchString('');
+  };
+
 
   useEffect(() => {
     setFoundedGuitars(findGuitars(guitars, searchString));

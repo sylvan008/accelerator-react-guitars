@@ -10,23 +10,52 @@ import Pagination from '../pagination/Pagination';
 import CatalogList from '../catalog-list/catalog-list';
 import Loader from '../loader/loader';
 import {useSort} from '../../hooks/use-sort';
+import {useSearchParams} from '../../hooks/use-search-params';
+import {SearchParam} from '../../utils/const/searchParam';
+import {Direction, SortType} from '../../types/sort';
+import {useEffect} from 'react';
+import {Guitar} from '../../types/guitar';
 
 function PageCatalog(): JSX.Element {
   const isCatalogLoad = useSelector(getIsCatalogLoad);
   const guitars = useSelector(getGuitars);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sortSearch = searchParams.get(SearchParam.Sort) as SortType | null;
+  const orderSearch = searchParams.get(SearchParam.Order) as Direction | null;
+  const nameSearch = searchParams.get(SearchParam.Name) || '';
 
   const [
     sortType,
     sortDirection,
     onSortTypeChange,
     onSortDirectionChange,
-  ] = useSort();
+  ] = useSort(sortSearch, orderSearch);
 
-  const sortedList = sortGuitars(guitars, sortType, sortDirection);
+  useEffect(() => {
+    if (sortType && sortDirection) {
+      setSearchParams({
+        [SearchParam.Sort]: sortType,
+        [SearchParam.Order]: sortDirection,
+      });
+    }
+  },[sortType, sortDirection, setSearchParams]);
 
   if (!isCatalogLoad) {
     return <Loader />;
   }
+
+  const filterLIst = (guitarsList: Guitar[]) => {
+    if (!nameSearch) {
+      return guitarsList;
+    }
+    return guitarsList.filter((guitar) => (
+      guitar.name
+        .toLowerCase()
+        .includes(nameSearch.toLocaleLowerCase())
+    ));
+  };
+  const sortedList = sortGuitars(filterLIst(guitars), sortType, sortDirection);
 
   return (
     <MainLayout>

@@ -83,7 +83,7 @@ function replaceImagePath(receivedPath:string, replace = IMAGE, clientPath = CLI
 /**
  * Сортирует список гитар по переданной характеристике, по убыванию или возрастанию
  */
-function sortGuitars(guitarList: Guitar[], type: SortType, direction: Direction) {
+function sortGuitars(guitarList: Guitar[], type: SortType | null, direction: Direction | null) {
   if (!type) {
     return guitarList;
   }

@@ -1,13 +1,30 @@
 import {useSearch} from '../../hooks/use-search';
 import SearchResultList from '../search-result-list/search-result-list';
+import {useSearchParams} from '../../hooks/use-search-params';
+import {SearchParam} from '../../utils/const/searchParam';
+import {browserHistory} from '../../services/browser-history';
+import {AppRoute} from '../../utils/const/app-route';
 
 function Search(): JSX.Element {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const nameSearch = searchParams.get(SearchParam.Name) || '';
+
+  const submitFormCallback = (searchData: string) => {
+    setSearchParams({
+      [SearchParam.Name]: searchData,
+    });
+    browserHistory.replace({
+      pathname: AppRoute.Catalog,
+      search: searchParams.toString(),
+    });
+  };
+
   const [
     foundedGuitars,
     searchString,
     onSearchInputChange,
     onSearchFormSubmit,
-  ] = useSearch();
+  ] = useSearch(nameSearch, submitFormCallback);
 
   const isSearching = searchString.length !== 0;
 

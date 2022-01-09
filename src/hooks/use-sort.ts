@@ -1,34 +1,31 @@
 import {Direction, SortType} from '../types/sort';
 import {SortDirection, sortingItems} from '../utils/const/sorting';
-import {useDispatch, useSelector} from 'react-redux';
-import {getOrder, getSort} from '../store/sort-process/selectors';
-import {setOrder, setSortType} from '../store/action';
+import {useState} from 'react';
 
 type ReturnType = [
-  sortType: SortType,
-  sortDirection: Direction,
+  sortType: SortType | null,
+  sortDirection: Direction | null,
   onSortTypeChange: (type: SortType) => void,
   onSortDirectionChange: (direction: Direction) => void,
 ];
 
 const FIRST_ITEM = 0;
 
-function useSort(): ReturnType {
-  const dispatch = useDispatch();
-  const sortType = useSelector(getSort);
-  const sortDirection = useSelector(getOrder);
+function useSort(sortSearch: SortType | null, orderSearch: Direction | null): ReturnType {
+  const [sortType, setSortType] = useState(sortSearch);
+  const [sortDirection, setSortDirection] = useState(orderSearch);
 
   const onSortTypeChange = (type: SortType) => {
-    dispatch(setSortType(type));
+    setSortType(type);
     if (!sortDirection) {
-      dispatch(setOrder(SortDirection.ASC));
+      setSortDirection(SortDirection.ASC);
     }
   };
 
   const onSortDirectionChange = (direction: Direction) => {
-    dispatch(setOrder(direction));
+    setSortDirection(direction);
     if (!sortType) {
-      dispatch(setSortType(sortingItems[FIRST_ITEM].type));
+      setSortType(sortingItems[FIRST_ITEM].type);
     }
   };
 
