@@ -97,17 +97,17 @@ function CatalogFilter(props: PropsType): JSX.Element {
         <legend className="catalog-filter__block-title">Количество струн</legend>
 
         {guitarStringsFilterItems.map((guitarsStringItem) => {
-          const {label, type} = guitarsStringItem;
+          const {label, type, value} = guitarsStringItem;
 
           return (
             <FilterCheckbox
-              isChecked={checkedGuitarStrings.includes(type)}
-              isDisabled={!isEmptyGuitarStringsSet && !guitarStringsSet.has(type)}
+              isChecked={checkedGuitarStrings.includes(value)}
+              isDisabled={!isEmptyGuitarStringsSet && !guitarStringsSet.has(value)}
               key={type}
               label={label}
               name={type}
               onChange={onGuitarStringChange}
-              value={type}
+              value={value}
             />
           );
         })}

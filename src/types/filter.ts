@@ -1,6 +1,7 @@
 import {GuitarType} from './guitar';
+import {stringsCounts} from '../utils/const/filter';
 
-export type GuitarStringCountType = '4-strings' | '6-strings' | '7-strings' | '12-strings';
+export type GuitarStringCountType = typeof stringsCounts[number];
 
 export type GuitarKindFilter = {
   type: GuitarType,
@@ -8,6 +9,7 @@ export type GuitarKindFilter = {
 };
 
 export type GuitarStringFilter = {
-  type: GuitarStringCountType,
+  type: string,
   label: string,
+  value: GuitarStringCountType
 };

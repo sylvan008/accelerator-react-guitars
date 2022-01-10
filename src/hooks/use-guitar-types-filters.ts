@@ -39,7 +39,7 @@ function useGuitarTypesFilters(): ReturnType {
 
       const newState = checked
         ? [...state, value] as S
-        : state.filter((type) => type !== value) as S;
+        : state.filter((type:unknown) => type !== value) as S;
 
       setState(newState);
     };

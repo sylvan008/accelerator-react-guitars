@@ -1,10 +1,10 @@
-import {GuitarKindFilter, GuitarStringCountType, GuitarStringFilter} from '../../types/filter';
+import {GuitarKindFilter, GuitarStringFilter} from '../../types/filter';
 import {GuitarStringCount} from '../../types/guitar';
 
 const STRINGS = '-strings';
-const createStingsCountType = (count: GuitarStringCount) => `${count}${STRINGS}` as GuitarStringCountType;
+const createStingsCountType = (count: GuitarStringCount) => `${count}${STRINGS}`;
 
-const stringsCounts = ([4, 6, 7, 12] as const);
+const stringsCounts = (['4', '6', '7', '12'] as const);
 
 const GuitarKind = ({
   Acoustic: 'acoustic',
@@ -30,14 +30,15 @@ const guitarKindFilterItems: GuitarKindFilter[] = [
 const guitarStringsFilterItems: GuitarStringFilter[] = (
   stringsCounts.map((stringCount) => ({
     type: createStingsCountType(stringCount),
-    label: stringCount.toString(),
+    label: stringCount,
+    value: stringCount,
   }))
 );
 
 const GuitarStringOptions = ({
-  [GuitarKind.Acoustic]: ([6, 7, 12] as GuitarStringCount[]).map((stringCount) => createStingsCountType(stringCount)),
-  [GuitarKind.Electric]: ([4, 6, 7] as GuitarStringCount[]).map((stringCount) => createStingsCountType(stringCount)),
-  [GuitarKind.Ukulele]: ([4] as GuitarStringCount[]).map((stringCount) => createStingsCountType(stringCount)),
+  [GuitarKind.Acoustic]: (['6', '7', '12'] as GuitarStringCount[]),
+  [GuitarKind.Electric]: (['4', '6', '7'] as GuitarStringCount[]),
+  [GuitarKind.Ukulele]: (['4'] as GuitarStringCount[]),
 } as const);
 
 export {
