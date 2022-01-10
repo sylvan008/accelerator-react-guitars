@@ -14,9 +14,9 @@ type ReturnType = [
   onGuitarStringChange: HookChangeEvent,
 ];
 
-function useGuitarTypesFilters(): ReturnType {
-  const [checkedGuitarTypes, setCheckedGuitarTypes] = useState<GuitarType[]>([]);
-  const [checkedGuitarStrings, setCheckedGuitarStrings] = useState<GuitarStringCountType[]>([]);
+function useGuitarTypesFilters(searchGuitarTypes: GuitarType[], searchGuitarString: GuitarStringCountType[]): ReturnType {
+  const [checkedGuitarTypes, setCheckedGuitarTypes] = useState<GuitarType[]>(searchGuitarTypes);
+  const [checkedGuitarStrings, setCheckedGuitarStrings] = useState<GuitarStringCountType[]>(searchGuitarString);
 
   const guitarStringsSet = useMemo<Set<GuitarStringCountType>>(
     () => new Set(checkedGuitarTypes.flatMap((guitarType) => GuitarStringOptions[guitarType])),
