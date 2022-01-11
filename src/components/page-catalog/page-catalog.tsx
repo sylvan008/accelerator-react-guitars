@@ -27,6 +27,8 @@ function PageCatalog(): JSX.Element {
   const nameSearch = searchParams.get(SearchParam.Name) || '';
   const stringsSearch = searchParams.get(SearchParam.Strings) || '';
   const guitarTypeSearch = searchParams.get(SearchParam.Type) || '';
+  const priceMinSearch = Number(searchParams.get(SearchParam.PriceLte)) || 0;
+  const priceMaxSearch = Number(searchParams.get(SearchParam.PriceGte)) || 0;
 
   const searchGuitarStrings = stringsSearch.split(' ') as GuitarStringCountType[];
   const searchGuitarTypes = guitarTypeSearch.split(' ') as GuitarType[];
@@ -70,7 +72,13 @@ function PageCatalog(): JSX.Element {
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
           <Breadcrumbs />
           <div className="catalog">
-            <CatalogFilter searchGuitarTypes={searchGuitarTypes} searchGuitarString={searchGuitarStrings} setSearchParams={setSearchParams} />
+            <CatalogFilter
+              priceMinSearch={priceMinSearch}
+              priceMaxSearch={priceMaxSearch}
+              searchGuitarTypes={searchGuitarTypes}
+              searchGuitarString={searchGuitarStrings}
+              setSearchParams={setSearchParams}
+            />
             <CatalogSort
               activeDirection={sortDirection}
               activeType={sortType}

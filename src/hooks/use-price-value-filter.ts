@@ -1,6 +1,4 @@
 import {KeyboardEvent, RefObject, useState} from 'react';
-import {useSelector} from 'react-redux';
-import {getPriceBounds} from '../store/catalog-process/selectors';
 import {checkMaxPrice, checkMinPrice, isEnterKey} from '../utils/utils';
 
 type InputRef = RefObject<HTMLInputElement>;
@@ -8,18 +6,25 @@ type OnPriceUpdate = () => void;
 type OnPriceChange = (event: KeyboardEvent) => void;
 
 type ReturnType = [
-  priceMinBound: number,
-  priceMaxBound: number,
+  priceMin: number,
+  priceMax: number,
   onMinPriceUpdate: OnPriceUpdate,
   onMaxPriceUpdate: OnPriceUpdate,
   onPriceMinChange: OnPriceChange,
   onPriceMaxChange: OnPriceChange,
 ];
 
-function usePriceValueFilter(inputMinPriceRef: InputRef, inputMaxPriceRef: InputRef): ReturnType {
-  const [priceMinBound, priceMaxBound] = useSelector(getPriceBounds);
-  const [priceMin, setPriceMin] = useState(priceMinBound);
-  const [priceMax, setPriceMax] = useState(priceMaxBound);
+function usePriceValueFilter(
+  inputMinPriceRef: InputRef,
+  inputMaxPriceRef: InputRef,
+  priceMinBound: number,
+  priceMaxBound: number,
+  priceMinValue: number,
+  priceMaxValue: number,
+): ReturnType {
+
+  const [priceMin, setPriceMin] = useState(checkMinPrice(priceMinValue, priceMinBound, priceMaxValue));
+  const [priceMax, setPriceMax] = useState(checkMaxPrice(priceMaxValue, priceMaxBound, priceMinValue));
 
   const onMinPriceUpdate = () => {
     if (!inputMinPriceRef.current) {
@@ -59,8 +64,8 @@ function usePriceValueFilter(inputMinPriceRef: InputRef, inputMaxPriceRef: Input
   const onPriceMaxChange = createPriceValueHandler(onMaxPriceUpdate);
 
   return [
-    priceMinBound,
-    priceMaxBound,
+    priceMin,
+    priceMax,
     onMinPriceUpdate,
     onMaxPriceUpdate,
     onPriceMinChange,

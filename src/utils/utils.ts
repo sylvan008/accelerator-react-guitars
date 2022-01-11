@@ -11,7 +11,10 @@ const CLIENT_IMAGE = 'img/content';
  * Проверяет что текущее вводимое значение не меньше минимальной стоимости товара
  * и не более текущей выбранной максимальной стоимости.
  */
-function checkMinPrice(priceValue: number, priceMinBound: number, priceMaxValue: number) {
+function checkMinPrice(bounds: [min: number, max: number], priceValue: number, priceMaxValue: number) {
+  if (priceValue === 0) {
+    return priceMinBound;
+  }
   return Math.min(
     Math.max(priceMinBound, priceValue),
     priceMaxValue,
@@ -23,6 +26,9 @@ function checkMinPrice(priceValue: number, priceMinBound: number, priceMaxValue:
  * и не меньше текущей выбранной минимальной стоимости.
  */
 function checkMaxPrice(priceValue: number, priceMaxBound: number, priceMinValue: number) {
+  if (priceValue === 0) {
+    return priceMaxBound;
+  }
   return Math.max(
     Math.min(priceMaxBound, priceValue),
     priceMinValue,
@@ -61,6 +67,11 @@ function getMinMaxPriceValue(guitars: Guitar[]): PriceBounds {
   const maxValue = sortedGuitarsByPriceAscending[sortedGuitarsByPriceAscending.length - 1]
     .price;
   return [minValue, maxValue];
+}
+
+function isPriceInBounds(bounds: [min: number, max: number], price: number) {
+  const [boundMin, boundMax] = bounds;
+  return boundMin < price && price < boundMax;
 }
 
 /**
@@ -105,6 +116,7 @@ export {
   checkMinPrice,
   createRangeList,
   isEnterKey,
+  isPriceInBounds,
   findGuitars,
   getMinMaxPriceValue,
   replaceImagePath,

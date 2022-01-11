@@ -7,26 +7,38 @@ import {SearchParam} from '../../utils/const/searchParam';
 import {GuitarStringCountType} from '../../types/filter';
 import {GuitarType} from '../../types/guitar';
 import FilterCheckbox from '../filter-checkbox/filter-checkbox';
+import {useSelector} from 'react-redux';
+import {getPriceBounds} from '../../store/catalog-process/selectors';
 
 type PropsType = {
   searchGuitarTypes: GuitarType[],
   searchGuitarString: GuitarStringCountType[],
+  priceMinSearch: number,
+  priceMaxSearch: number,
   setSearchParams: (params: SearchRecord) => void,
 };
 
 function CatalogFilter(props: PropsType): JSX.Element {
-  const {searchGuitarTypes, searchGuitarString, setSearchParams} = props;
+  const [priceMinBound, priceMaxBound] = useSelector(getPriceBounds);
+  const {searchGuitarTypes, searchGuitarString, priceMinSearch, priceMaxSearch, setSearchParams} = props;
   const inputMinPriceRef = useRef<HTMLInputElement>(null);
   const inputMaxPriceRef = useRef<HTMLInputElement>(null);
 
   const [
-    priceMinBound,
-    priceMaxBound,
+    priceMin,
+    priceMax,
     onMinPriceUpdate,
     onMaxPriceUpdate,
     onPriceMinChange,
     onPriceMaxChange,
-  ] = usePriceValueFilter(inputMinPriceRef, inputMaxPriceRef);
+  ] = usePriceValueFilter(
+    inputMinPriceRef,
+    inputMaxPriceRef,
+    priceMinBound,
+    priceMaxBound,
+    priceMinSearch,
+    priceMaxSearch,
+  );
 
   const [
     checkedGuitarTypes,
@@ -42,6 +54,13 @@ function CatalogFilter(props: PropsType): JSX.Element {
       [SearchParam.Strings]: checkedGuitarStrings.join(' '),
     });
   }, [checkedGuitarTypes, checkedGuitarStrings, setSearchParams]);
+
+  useEffect(() => {
+    setSearchParams({
+      [SearchParam.PriceLte]: priceMin.toString(),
+      [SearchParam.PriceGte]: priceMax.toString(),
+    });
+  }, [priceMin, priceMax, setSearchParams]);
 
   const isEmptyGuitarStringsSet = guitarStringsSet.size === 0;
 
@@ -59,7 +78,7 @@ function CatalogFilter(props: PropsType): JSX.Element {
               id="priceMin"
               name="от"
               ref={inputMinPriceRef}
-              defaultValue={priceMinBound}
+              defaultValue={priceMin}
               onKeyPress={onPriceMinChange}
               onBlur={onMinPriceUpdate}
             />
@@ -72,7 +91,7 @@ function CatalogFilter(props: PropsType): JSX.Element {
               id="priceMax"
               name="до"
               ref={inputMaxPriceRef}
-              defaultValue={priceMaxBound}
+              defaultValue={priceMax}
               onKeyPress={onPriceMaxChange}
               onBlur={onMaxPriceUpdate}
             />
