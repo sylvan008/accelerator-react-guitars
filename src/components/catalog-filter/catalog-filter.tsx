@@ -7,20 +7,27 @@ import {SearchParam} from '../../utils/const/searchParam';
 import {GuitarStringCountType} from '../../types/filter';
 import {GuitarType} from '../../types/guitar';
 import FilterCheckbox from '../filter-checkbox/filter-checkbox';
-import {useSelector} from 'react-redux';
-import {getPriceBounds} from '../../store/catalog-process/selectors';
+import {PriceBounds} from '../../types/store';
 
 type PropsType = {
   searchGuitarTypes: GuitarType[],
   searchGuitarString: GuitarStringCountType[],
+  priceBounds: PriceBounds,
   priceMinSearch: number,
   priceMaxSearch: number,
   setSearchParams: (params: SearchRecord) => void,
 };
 
 function CatalogFilter(props: PropsType): JSX.Element {
-  const [priceMinBound, priceMaxBound] = useSelector(getPriceBounds);
-  const {searchGuitarTypes, searchGuitarString, priceMinSearch, priceMaxSearch, setSearchParams} = props;
+  const {
+    searchGuitarTypes,
+    searchGuitarString,
+    priceBounds,
+    priceMinSearch,
+    priceMaxSearch,
+    setSearchParams,
+  } = props;
+
   const inputMinPriceRef = useRef<HTMLInputElement>(null);
   const inputMaxPriceRef = useRef<HTMLInputElement>(null);
 
@@ -34,8 +41,7 @@ function CatalogFilter(props: PropsType): JSX.Element {
   ] = usePriceValueFilter(
     inputMinPriceRef,
     inputMaxPriceRef,
-    priceMinBound,
-    priceMaxBound,
+    priceBounds,
     priceMinSearch,
     priceMaxSearch,
   );
@@ -62,7 +68,11 @@ function CatalogFilter(props: PropsType): JSX.Element {
     });
   }, [priceMin, priceMax, setSearchParams]);
 
+  const [priceMinBound, priceMaxBound] = priceBounds;
   const isEmptyGuitarStringsSet = guitarStringsSet.size === 0;
+
+  // eslint-disable-next-line no-console
+  console.log('set empty', guitarStringsSet.values().next());
 
   return (
     <form className="catalog-filter">

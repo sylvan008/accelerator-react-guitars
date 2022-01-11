@@ -1,5 +1,6 @@
 import {KeyboardEvent, RefObject, useState} from 'react';
 import {checkMaxPrice, checkMinPrice, isEnterKey} from '../utils/utils';
+import {PriceBounds} from '../types/store';
 
 type InputRef = RefObject<HTMLInputElement>;
 type OnPriceUpdate = () => void;
@@ -17,24 +18,20 @@ type ReturnType = [
 function usePriceValueFilter(
   inputMinPriceRef: InputRef,
   inputMaxPriceRef: InputRef,
-  priceMinBound: number,
-  priceMaxBound: number,
-  priceMinValue: number,
-  priceMaxValue: number,
+  priceBounds: PriceBounds,
+  priceMinSearch: number,
+  priceMaxSearch: number,
 ): ReturnType {
-
-  const [priceMin, setPriceMin] = useState(checkMinPrice(priceMinValue, priceMinBound, priceMaxValue));
-  const [priceMax, setPriceMax] = useState(checkMaxPrice(priceMaxValue, priceMaxBound, priceMinValue));
+  const [priceMin, setPriceMin] = useState(priceMinSearch);
+  const [priceMax, setPriceMax] = useState(priceMaxSearch);
 
   const onMinPriceUpdate = () => {
     if (!inputMinPriceRef.current) {
       return;
     }
-    const newMinPriceValue = checkMinPrice(
-      Number(inputMinPriceRef.current.value),
-      priceMinBound,
-      priceMax,
-    );
+
+    const newMinPriceValue = checkMinPrice(priceBounds, Number(inputMinPriceRef.current.value), priceMax);
+
     inputMinPriceRef.current.value = newMinPriceValue.toString();
     setPriceMin(newMinPriceValue);
   };
@@ -44,8 +41,8 @@ function usePriceValueFilter(
       return;
     }
     const newMaxPriceValue = checkMaxPrice(
+      priceBounds,
       Number(inputMaxPriceRef.current.value),
-      priceMaxBound,
       priceMin,
     );
     inputMaxPriceRef.current.value = newMaxPriceValue.toString();

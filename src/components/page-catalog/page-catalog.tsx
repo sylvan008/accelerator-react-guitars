@@ -1,8 +1,8 @@
 import {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {getGuitars, getIsCatalogLoad} from '../../store/catalog-process/selectors';
+import {getGuitars, getIsCatalogLoad, getPriceBounds} from '../../store/catalog-process/selectors';
 import {sortingItems} from '../../utils/const/sorting';
-import {sortGuitars} from '../../utils/utils';
+import {checkMinMaxPriceValue, sortGuitars} from '../../utils/utils';
 import {useSort} from '../../hooks/use-sort';
 import {useSearchParams} from '../../hooks/use-search-params';
 import {SearchParam} from '../../utils/const/searchParam';
@@ -18,6 +18,7 @@ import CatalogList from '../catalog-list/catalog-list';
 import Loader from '../loader/loader';
 
 function PageCatalog(): JSX.Element {
+  const priceBounds = useSelector(getPriceBounds);
   const isCatalogLoad = useSelector(getIsCatalogLoad);
   const guitars = useSelector(getGuitars);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,11 +28,16 @@ function PageCatalog(): JSX.Element {
   const nameSearch = searchParams.get(SearchParam.Name) || '';
   const stringsSearch = searchParams.get(SearchParam.Strings) || '';
   const guitarTypeSearch = searchParams.get(SearchParam.Type) || '';
-  const priceMinSearch = Number(searchParams.get(SearchParam.PriceLte)) || 0;
-  const priceMaxSearch = Number(searchParams.get(SearchParam.PriceGte)) || 0;
+  const searchGuitarStrings = stringsSearch.length
+    ? stringsSearch.split(' ') as GuitarStringCountType[]
+    : [];
+  const searchGuitarTypes = guitarTypeSearch.length
+    ? guitarTypeSearch.split(' ') as GuitarType[]
+    : [];
 
-  const searchGuitarStrings = stringsSearch.split(' ') as GuitarStringCountType[];
-  const searchGuitarTypes = guitarTypeSearch.split(' ') as GuitarType[];
+  let priceMinSearch = Number(searchParams.get(SearchParam.PriceLte)) || 0;
+  let priceMaxSearch = Number(searchParams.get(SearchParam.PriceGte)) || 0;
+  [priceMinSearch, priceMaxSearch] = checkMinMaxPriceValue(priceBounds, priceMinSearch, priceMaxSearch);
 
   const [
     sortType,
@@ -73,6 +79,7 @@ function PageCatalog(): JSX.Element {
           <Breadcrumbs />
           <div className="catalog">
             <CatalogFilter
+              priceBounds={priceBounds}
               priceMinSearch={priceMinSearch}
               priceMaxSearch={priceMaxSearch}
               searchGuitarTypes={searchGuitarTypes}

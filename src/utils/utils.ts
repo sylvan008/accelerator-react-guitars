@@ -8,10 +8,27 @@ const IMAGE = 'img';
 const CLIENT_IMAGE = 'img/content';
 
 /**
+ * Проверяет соответствие минимальной и максимальной цены интервалу [min, max].
+ * Если введённая минимальная цена выше максимальной, меняет их местами.
+ */
+function checkMinMaxPriceValue(bounds: PriceBounds, priceMin: number, priceMax: number) {
+  const [boundMin, boundMax] = bounds;
+  let min = isPriceInBounds(bounds, priceMin) ? priceMin : boundMin;
+  let max = isPriceInBounds(bounds, priceMax) ? priceMax : boundMax;
+
+  if (min > max) {
+    [min, max] = [max, min];
+  }
+
+  return [min, max];
+}
+
+/**
  * Проверяет что текущее вводимое значение не меньше минимальной стоимости товара
  * и не более текущей выбранной максимальной стоимости.
  */
-function checkMinPrice(bounds: [min: number, max: number], priceValue: number, priceMaxValue: number) {
+function checkMinPrice(bounds: PriceBounds, priceValue: number, priceMaxValue: number) {
+  const [priceMinBound] = bounds;
   if (priceValue === 0) {
     return priceMinBound;
   }
@@ -25,7 +42,8 @@ function checkMinPrice(bounds: [min: number, max: number], priceValue: number, p
  * Проверяет что текущее вводимое значение не более максимальной стоимости товара
  * и не меньше текущей выбранной минимальной стоимости.
  */
-function checkMaxPrice(priceValue: number, priceMaxBound: number, priceMinValue: number) {
+function checkMaxPrice(bounds: PriceBounds, priceValue: number, priceMinValue: number) {
+  const [, priceMaxBound] = bounds;
   if (priceValue === 0) {
     return priceMaxBound;
   }
@@ -71,7 +89,7 @@ function getMinMaxPriceValue(guitars: Guitar[]): PriceBounds {
 
 function isPriceInBounds(bounds: [min: number, max: number], price: number) {
   const [boundMin, boundMax] = bounds;
-  return boundMin < price && price < boundMax;
+  return boundMin <= price && price <= boundMax;
 }
 
 /**
@@ -112,6 +130,7 @@ function sortGuitars(guitarList: Guitar[], type: SortType | null, direction: Dir
 }
 
 export {
+  checkMinMaxPriceValue,
   checkMaxPrice,
   checkMinPrice,
   createRangeList,
