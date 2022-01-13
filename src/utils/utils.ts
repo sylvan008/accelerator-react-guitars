@@ -1,11 +1,44 @@
-import {Guitar} from '../types/guitar';
+import {Guitar, GuitarStringCount, GuitarType} from '../types/guitar';
 import {Direction, SortType} from '../types/sort';
-import {SortDirection, SortingType} from './const/sorting';
+import {SortDirection, SortingType, sortingTypes} from './const/sorting';
 import {PriceBounds} from '../types/store';
 import {KeyboardEvent} from 'react';
+import {guitarKinds, stringsCounts} from './const/filter';
+import {GuitarStringCountType} from '../types/filter';
 
 const IMAGE = 'img';
 const CLIENT_IMAGE = 'img/content';
+
+function convertSearchStringToArray(searchString: string | null): string[] {
+  if (searchString === null || searchString.length === 0) {
+    return [];
+  }
+  return searchString.split(' ');
+}
+
+function checkGuitarTypes(guitarTypes: GuitarType[]): GuitarType[] {
+  return guitarTypes.filter((guitarType) => guitarKinds.includes(guitarType));
+}
+
+function checkGuitarStrings(guitarStrings: GuitarStringCountType[]): GuitarStringCount[] {
+  return guitarStrings.filter((guitarString) => stringsCounts.includes(guitarString));
+}
+
+function checkSortDirection(directionType: Direction | null) {
+  if (!directionType) {
+    return null;
+  }
+  const direction = directionType.toUpperCase();
+  return direction === SortDirection.ASC || direction === SortDirection.DESC ? direction : null;
+}
+
+function checkSort(sortType: SortType | null) {
+  if (!sortType) {
+    return null;
+  }
+  const sort = sortType.toLowerCase() as SortType;
+  return sortingTypes.includes(sort) ? sort : null;
+}
 
 /**
  * Проверяет соответствие минимальной и максимальной цены интервалу [min, max].
@@ -129,8 +162,30 @@ function sortGuitars(guitarList: Guitar[], type: SortType | null, direction: Dir
   return list.sort(sort);
 }
 
+
+/**
+ * Возвращает настройку сортировки по умолчанию, если одна из них задана, а вторая нет.
+ */
+function updateSortDependency(sortType: SortType | null, directionType: Direction | null): [sort: SortType | null, direction: Direction | null] {
+  let sort = sortType;
+  let direction = directionType;
+
+  if (sort && !direction) {
+    direction = SortDirection.ASC;
+  }
+  if (!sort && direction) {
+    sort = SortingType.Price;
+  }
+  return [sort, direction];
+}
+
 export {
+  checkSort,
+  convertSearchStringToArray,
   checkMinMaxPriceValue,
+  checkGuitarTypes,
+  checkGuitarStrings,
+  checkSortDirection,
   checkMaxPrice,
   checkMinPrice,
   createRangeList,
@@ -139,5 +194,6 @@ export {
   findGuitars,
   getMinMaxPriceValue,
   replaceImagePath,
-  sortGuitars
+  sortGuitars,
+  updateSortDependency
 };

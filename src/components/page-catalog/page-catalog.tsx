@@ -2,7 +2,13 @@ import {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {getGuitars, getIsCatalogLoad, getPriceBounds} from '../../store/catalog-process/selectors';
 import {sortingItems} from '../../utils/const/sorting';
-import {checkMinMaxPriceValue, sortGuitars} from '../../utils/utils';
+import {
+  checkGuitarStrings,
+  checkGuitarTypes,
+  checkMinMaxPriceValue, checkSort, checkSortDirection,
+  convertSearchStringToArray,
+  sortGuitars, updateSortDependency
+} from '../../utils/utils';
 import {useSort} from '../../hooks/use-sort';
 import {useSearchParams} from '../../hooks/use-search-params';
 import {SearchParam} from '../../utils/const/searchParam';
@@ -23,17 +29,18 @@ function PageCatalog(): JSX.Element {
   const guitars = useSelector(getGuitars);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const sortSearch = searchParams.get(SearchParam.Sort) as SortType | null;
-  const orderSearch = searchParams.get(SearchParam.Order) as Direction | null;
   const nameSearch = searchParams.get(SearchParam.Name) || '';
-  const stringsSearch = searchParams.get(SearchParam.Strings) || '';
-  const guitarTypeSearch = searchParams.get(SearchParam.Type) || '';
-  const searchGuitarStrings = stringsSearch.length
-    ? stringsSearch.split(' ') as GuitarStringCountType[]
-    : [];
-  const searchGuitarTypes = guitarTypeSearch.length
-    ? guitarTypeSearch.split(' ') as GuitarType[]
-    : [];
+  const searchGuitarStrings = checkGuitarStrings(
+    convertSearchStringToArray(searchParams.get(SearchParam.Strings)) as GuitarStringCountType[],
+  );
+  const searchGuitarTypes = checkGuitarTypes(
+    convertSearchStringToArray(searchParams.get(SearchParam.Type)) as GuitarType[],
+  );
+
+  let sortSearch = checkSort(searchParams.get(SearchParam.Sort) as SortType);
+  let orderSearch = checkSortDirection(searchParams.get(SearchParam.Order) as Direction);
+
+  [sortSearch, orderSearch] = updateSortDependency(sortSearch, orderSearch);
 
   let priceMinSearch = Number(searchParams.get(SearchParam.PriceLte)) || 0;
   let priceMaxSearch = Number(searchParams.get(SearchParam.PriceGte)) || 0;

@@ -12,6 +12,8 @@ const GuitarKind = ({
   Ukulele: 'ukulele',
 } as const);
 
+const guitarKinds = Object.values(GuitarKind);
+
 const guitarKindFilterItems: GuitarKindFilter[] = [
   {
     type: GuitarKind.Acoustic,
@@ -43,6 +45,7 @@ const GuitarStringOptions = ({
 
 export {
   GuitarKind,
+  guitarKinds,
   guitarKindFilterItems,
   GuitarStringOptions,
   guitarStringsFilterItems,

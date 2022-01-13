@@ -10,6 +10,8 @@ const SortingType = ({
   Rating: 'rating',
 } as const);
 
+const sortingTypes = Object.values(SortingType);
+
 const SortingLabel = {
   [SortDirection.ASC]: 'По возрастанию',
   [SortDirection.DESC]: 'По убыванию',
@@ -30,5 +32,6 @@ export {
   SortingLabel,
   SortDirection,
   sortingItems,
-  SortingType
+  SortingType,
+  sortingTypes
 };
