@@ -1,5 +1,6 @@
 export const AppRoute = ({
   Catalog: '/catalog',
+  CatalogPage: '/catalog/page/:pageNumber',
   NotFound: '/404',
 } as const);
 
@@ -10,4 +11,9 @@ export const ApiRoute = ({
   GetGuitars: '/guitars',
   GetComments: '/guitars/:id/comments',
   SendOrder: '/orders',
+} as const);
+
+export const RouteParam = ({
+  Id: ':id',
+  PageNumber: ':pageNumber',
 } as const);

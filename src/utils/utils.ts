@@ -5,9 +5,10 @@ import {PriceBounds} from '../types/store';
 import {KeyboardEvent} from 'react';
 import {guitarKinds, stringsCounts} from './const/filter';
 import {GuitarStringCountType} from '../types/filter';
+import {ELEMENTS_PER_PAGE, PAGE_DEFAULT_NUMBER, PAGE_NUMBER_SEPARATOR} from './const/pagination';
 
 const IMAGE = 'img';
-const CLIENT_IMAGE = 'img/content';
+const CLIENT_IMAGE = '/img/content';
 
 function convertSearchStringToArray(searchString: string | null): string[] {
   if (searchString === null || searchString.length === 0) {
@@ -120,6 +121,10 @@ function getMinMaxPriceValue(guitars: Guitar[]): PriceBounds {
   return [minValue, maxValue];
 }
 
+function getTotalPages(elementsCount: number, elementsPerPage = ELEMENTS_PER_PAGE) {
+  return Math.floor(elementsCount / elementsPerPage) + Math.ceil(elementsCount % elementsPerPage);
+}
+
 function isPriceInBounds(bounds: [min: number, max: number], price: number) {
   const [boundMin, boundMax] = bounds;
   return boundMin <= price && price <= boundMax;
@@ -132,6 +137,12 @@ function isEnterKey(event: KeyboardEvent) {
   return event.key === 'Enter';
 }
 
+function parsePageNumberParam(pageNumberParam: string) {
+  const lastIncludePosition = pageNumberParam.lastIndexOf(PAGE_NUMBER_SEPARATOR) + 1;
+  const pageNumber = Number(pageNumberParam.slice(lastIncludePosition));
+  return pageNumber ? pageNumber : PAGE_DEFAULT_NUMBER;
+}
+
 /**
  * Заменяет путь к изображениям в данных полученных от сервера
  * Дефолтные значения:
@@ -140,6 +151,16 @@ function isEnterKey(event: KeyboardEvent) {
  */
 function replaceImagePath(receivedPath:string, replace = IMAGE, clientPath = CLIENT_IMAGE) {
   return receivedPath.replace(replace, clientPath);
+}
+
+function replaceRouteParam(route: string, replace: string, value: string) {
+  return route.replace(replace, value);
+}
+
+function sliceElementsForPage(elements: Guitar[], pageNumber: number) {
+  const paginationStartIndex = (pageNumber - 1) * ELEMENTS_PER_PAGE;
+  const paginationLastIndex = pageNumber * ELEMENTS_PER_PAGE;
+  return elements.slice(paginationStartIndex, Math.min(paginationLastIndex, elements.length));
 }
 
 /**
@@ -189,11 +210,15 @@ export {
   checkMaxPrice,
   checkMinPrice,
   createRangeList,
+  getTotalPages,
   isEnterKey,
   isPriceInBounds,
   findGuitars,
   getMinMaxPriceValue,
   replaceImagePath,
+  replaceRouteParam,
+  parsePageNumberParam,
+  sliceElementsForPage,
   sortGuitars,
   updateSortDependency
 };
