@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {getGuitars, getIsCatalogLoad, getPriceBounds} from '../../store/catalog-process/selectors';
@@ -11,7 +11,7 @@ import {
   checkSortDirection,
   convertSearchStringToArray,
   getTotalPages,
-  parsePageNumberParam,
+  parsePageNumberParam, replaceRouteParam,
   sliceElementsForPage,
   sortGuitars,
   updateSortDependency
@@ -30,6 +30,8 @@ import CatalogSort from '../catalog-sort/catalog-sort';
 import Pagination from '../pagination/pagination';
 import CatalogList from '../catalog-list/catalog-list';
 import Loader from '../loader/loader';
+import {browserHistory} from '../../services/browser-history';
+import {AppRoute, RouteParam} from '../../utils/const/app-route';
 
 type RouteParams = {
   pageNumber: string,
@@ -84,7 +86,18 @@ function PageCatalog(): JSX.Element {
   filterList = filterByType(filterList, searchGuitarTypes);
   filterList = filterByStrings(filterList, searchGuitarStrings);
 
-  const totalPages = getTotalPages(filterList.length);
+  const totalPages = useMemo(
+    () => (getTotalPages(filterList.length)),
+    [filterList.length],
+  );
+
+  useEffect(() => {
+    browserHistory.replace({
+      pathname: replaceRouteParam(AppRoute.CatalogPage, RouteParam.PageNumber, '1'),
+      search: searchParams.toString(),
+    });
+  }, [totalPages, searchParams]);
+
   let catalogCards = sortGuitars(filterList, sortType, sortDirection);
   catalogCards = sliceElementsForPage(catalogCards, pageNumber);
 
