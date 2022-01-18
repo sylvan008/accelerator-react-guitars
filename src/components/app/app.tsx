@@ -9,6 +9,7 @@ function App(): JSX.Element {
     <Router history={browserHistory}>
       <Redirect exact from="/" to={`${AppRoute.Catalog}${search.toString()}`} />
       <Route exact path={AppRoute.Catalog} component={PageCatalog} />
+      <Route exact path={AppRoute.CatalogPage} component={PageCatalog} />
     </Router>
   );
 }

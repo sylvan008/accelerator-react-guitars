@@ -71,9 +71,6 @@ function CatalogFilter(props: PropsType): JSX.Element {
   const [priceMinBound, priceMaxBound] = priceBounds;
   const isEmptyGuitarStringsSet = guitarStringsSet.size === 0;
 
-  // eslint-disable-next-line no-console
-  console.log('set empty', guitarStringsSet.values().next());
-
   return (
     <form className="catalog-filter">
       <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>

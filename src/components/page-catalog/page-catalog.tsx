@@ -1,29 +1,48 @@
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
+import {useParams} from 'react-router-dom';
 import {getGuitars, getIsCatalogLoad, getPriceBounds} from '../../store/catalog-process/selectors';
 import {sortingItems} from '../../utils/const/sorting';
 import {
   checkGuitarStrings,
   checkGuitarTypes,
-  checkMinMaxPriceValue, checkSort, checkSortDirection,
+  checkMinMaxPriceValue,
+  checkSort,
+  checkSortDirection,
   convertSearchStringToArray,
-  sortGuitars, updateSortDependency
+  getTotalPages,
+  parsePageNumberParam, replaceRouteParam,
+  sliceElementsForPage,
+  sortGuitars,
+  updateSortDependency
 } from '../../utils/utils';
 import {useSort} from '../../hooks/use-sort';
 import {useSearchParams} from '../../hooks/use-search-params';
 import {SearchParam} from '../../utils/const/searchParam';
 import {Direction, SortType} from '../../types/sort';
-import {Guitar, GuitarType} from '../../types/guitar';
+import {GuitarType} from '../../types/guitar';
 import {GuitarStringCountType} from '../../types/filter';
+import {filterByName, filterByPrice, filterByStrings, filterByType} from '../../utils/filters';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CatalogFilter from '../catalog-filter/catalog-filter';
 import CatalogSort from '../catalog-sort/catalog-sort';
-import Pagination from '../pagination/Pagination';
+import Pagination from '../pagination/pagination';
 import CatalogList from '../catalog-list/catalog-list';
 import Loader from '../loader/loader';
+import {browserHistory} from '../../services/browser-history';
+import {AppRoute, RouteParam} from '../../utils/const/app-route';
+
+type RouteParams = {
+  pageNumber: string,
+};
 
 function PageCatalog(): JSX.Element {
+  const routeParams: RouteParams = useParams();
+  const pageNumber = routeParams.pageNumber
+    ? parsePageNumberParam(routeParams.pageNumber)
+    : 1;
+
   const priceBounds = useSelector(getPriceBounds);
   const isCatalogLoad = useSelector(getIsCatalogLoad);
   const guitars = useSelector(getGuitars);
@@ -62,21 +81,29 @@ function PageCatalog(): JSX.Element {
     }
   },[sortType, sortDirection, setSearchParams]);
 
+  let filterList = filterByName(guitars, nameSearch);
+  filterList = filterByPrice(filterList, [priceMinSearch, priceMaxSearch]);
+  filterList = filterByType(filterList, searchGuitarTypes);
+  filterList = filterByStrings(filterList, searchGuitarStrings);
+
+  const totalPages = useMemo(
+    () => (getTotalPages(filterList.length)),
+    [filterList.length],
+  );
+
+  useEffect(() => {
+    browserHistory.replace({
+      pathname: replaceRouteParam(AppRoute.CatalogPage, RouteParam.PageNumber, '1'),
+      search: searchParams.toString(),
+    });
+  }, [totalPages, searchParams]);
+
+  let catalogCards = sortGuitars(filterList, sortType, sortDirection);
+  catalogCards = sliceElementsForPage(catalogCards, pageNumber);
+
   if (!isCatalogLoad) {
     return <Loader />;
   }
-
-  const filterLIst = (guitarsList: Guitar[]) => {
-    if (!nameSearch) {
-      return guitarsList;
-    }
-    return guitarsList.filter((guitar) => (
-      guitar.name
-        .toLowerCase()
-        .includes(nameSearch.toLocaleLowerCase())
-    ));
-  };
-  const sortedList = sortGuitars(filterLIst(guitars), sortType, sortDirection);
 
   return (
     <MainLayout>
@@ -100,8 +127,8 @@ function PageCatalog(): JSX.Element {
               onSortTypeChange={onSortTypeChange}
               sortingItems={sortingItems}
             />
-            <CatalogList guitars={sortedList} />
-            <Pagination />
+            <CatalogList guitars={catalogCards} />
+            <Pagination pageNumber={pageNumber} totalPages={totalPages} />
           </div>
         </div>
       </main>
