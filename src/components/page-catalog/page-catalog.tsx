@@ -20,8 +20,9 @@ import {useSort} from '../../hooks/use-sort';
 import {useSearchParams} from '../../hooks/use-search-params';
 import {SearchParam} from '../../utils/const/searchParam';
 import {Direction, SortType} from '../../types/sort';
-import {Guitar, GuitarType} from '../../types/guitar';
+import {GuitarType} from '../../types/guitar';
 import {GuitarStringCountType} from '../../types/filter';
+import {filterByName, filterByPrice, filterByStrings, filterByType} from '../../utils/filters';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CatalogFilter from '../catalog-filter/catalog-filter';
@@ -78,25 +79,18 @@ function PageCatalog(): JSX.Element {
     }
   },[sortType, sortDirection, setSearchParams]);
 
+  let filterList = filterByName(guitars, nameSearch);
+  filterList = filterByPrice(filterList, [priceMinSearch, priceMaxSearch]);
+  filterList = filterByType(filterList, searchGuitarTypes);
+  filterList = filterByStrings(filterList, searchGuitarStrings);
+
+  const totalPages = getTotalPages(filterList.length);
+  let catalogCards = sortGuitars(filterList, sortType, sortDirection);
+  catalogCards = sliceElementsForPage(catalogCards, pageNumber);
 
   if (!isCatalogLoad) {
     return <Loader />;
   }
-
-  const filterList = (guitarsList: Guitar[]) => {
-    if (!nameSearch) {
-      return guitarsList;
-    }
-    return guitarsList.filter((guitar) => (
-      guitar.name
-        .toLowerCase()
-        .includes(nameSearch.toLocaleLowerCase())
-    ));
-  };
-
-  const totalPages = getTotalPages(guitars.length);
-  let catalogCards = sortGuitars(filterList(guitars), sortType, sortDirection);
-  catalogCards = sliceElementsForPage(catalogCards, pageNumber);
 
   return (
     <MainLayout>

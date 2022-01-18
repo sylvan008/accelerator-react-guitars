@@ -11,7 +11,7 @@ export type Guitar = {
   type: GuitarType,
   description: string,
   previewImg: string,
-  stringCount: GuitarStringCount,
+  stringCount: number,
   rating: number,
   price: number,
 };

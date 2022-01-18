@@ -122,7 +122,7 @@ function getMinMaxPriceValue(guitars: Guitar[]): PriceBounds {
 }
 
 function getTotalPages(elementsCount: number, elementsPerPage = ELEMENTS_PER_PAGE) {
-  return Math.floor(elementsCount / elementsPerPage) + Math.ceil(elementsCount % elementsPerPage);
+  return Math.ceil(elementsCount / elementsPerPage);
 }
 
 function isPriceInBounds(bounds: [min: number, max: number], price: number) {
