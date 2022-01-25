@@ -4,4 +4,5 @@ export const TestId = ({
   FilterCheckbox: 'filter-checkbox',
   MainFooter: 'main-footer',
   MainHeader: 'main-header',
+  MainNav: 'main-nav',
 } as const);
