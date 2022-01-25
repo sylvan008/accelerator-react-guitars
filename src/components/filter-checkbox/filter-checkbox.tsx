@@ -1,4 +1,5 @@
 import {ChangeEvent} from 'react';
+import {TestId} from '../../utils/const/test-id';
 
 type PropsType = {
   isChecked?: boolean,
@@ -30,6 +31,7 @@ function FilterCheckbox(props: PropsType): JSX.Element {
         disabled={isDisabled}
         onChange={onChange}
         value={value}
+        data-testid={TestId.FilterCheckbox}
       />
       <label htmlFor={name}>{label}</label>
     </div>
