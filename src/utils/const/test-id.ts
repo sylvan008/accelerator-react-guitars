@@ -3,4 +3,5 @@ export const TestId = ({
   RatingFull: 'rating-full',
   FilterCheckbox: 'filter-checkbox',
   MainFooter: 'main-footer',
+  MainHeader: 'main-header',
 } as const);
