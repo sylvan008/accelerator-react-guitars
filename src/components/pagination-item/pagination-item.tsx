@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import {replaceRouteParam} from '../../utils/utils';
 import {AppRoute, RouteParam} from '../../utils/const/app-route';
 import {browserHistory} from '../../services/browser-history';
+import {TestId} from '../../utils/const/test-id';
 
 const ACTIVE_CLASS = 'pagination__page--active';
 
@@ -35,7 +36,7 @@ function PaginationItem(props: PropsType): JSX.Element {
   const route = replaceRouteParam(AppRoute.CatalogPage, RouteParam.PageNumber, pageNumber.toString());
 
   return (
-    <li className={classNames} {...optionalProps}>
+    <li className={classNames} {...optionalProps} data-testid={TestId.PaginationItem}>
       <Link
         className="link pagination__page-link"
         to={`${route}${search.toString()}`}

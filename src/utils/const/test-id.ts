@@ -5,4 +5,6 @@ export const TestId = ({
   MainFooter: 'main-footer',
   MainHeader: 'main-header',
   MainNav: 'main-nav',
+  Pagination: 'pagination',
+  PaginationItem: 'pagination-item',
 } as const);
