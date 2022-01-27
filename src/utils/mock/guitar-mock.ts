@@ -13,7 +13,7 @@ const ID_MIN = 0;
 const ID_MAX = 1000000;
 
 function crateGuitarName() {
-  return `${GUITAR_NAME_PREFIX}-${getRandomIntegerNumber(1, 8)}`;
+  return `${GUITAR_NAME_PREFIX}-${getRandomIntegerNumber(1, 100000)}`;
 }
 
 function getGuitarImage() {
@@ -28,7 +28,7 @@ function createMockGuitar(): Guitar {
   return {
     id: getRandomIntegerNumber(ID_MIN, ID_MAX),
     name: crateGuitarName(),
-    stringCount: stringsCounts[getRandomIntegerNumber(0, stringsCounts.length)],
+    stringCount: Number(stringsCounts[getRandomIntegerNumber(0, stringsCounts.length)]),
     previewImg: getGuitarImage(),
     price: getRandomIntegerNumber(PRICE_MIN, PRICE_MAX),
     rating: getRandomIntegerNumber(RATING_MIN, RATING_MAX),
