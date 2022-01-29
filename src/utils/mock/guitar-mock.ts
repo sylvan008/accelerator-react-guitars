@@ -21,14 +21,14 @@ function getGuitarImage() {
 }
 
 function getGuitarType(): GuitarType {
-  return guitarKinds[getRandomIntegerNumber(0, guitarKinds.length)];
+  return guitarKinds[getRandomIntegerNumber(0, guitarKinds.length - 1)];
 }
 
 function createMockGuitar(): Guitar {
   return {
     id: getRandomIntegerNumber(ID_MIN, ID_MAX),
     name: crateGuitarName(),
-    stringCount: Number(stringsCounts[getRandomIntegerNumber(0, stringsCounts.length)]),
+    stringCount: Number(stringsCounts[getRandomIntegerNumber(0, stringsCounts.length - 1)]),
     previewImg: getGuitarImage(),
     price: getRandomIntegerNumber(PRICE_MIN, PRICE_MAX),
     rating: getRandomIntegerNumber(RATING_MIN, RATING_MAX),
