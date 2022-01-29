@@ -5,8 +5,6 @@ type PropsType = {
   rating: number,
 };
 
-const STAR_FULL_ICON = 'icon-full-star';
-const STAR_ICON = 'icon-star';
 const RATING_STARTS_WITH = 1;
 const RATING_STARS_COUNT = 5;
 
@@ -16,10 +14,10 @@ function CardRating(props: PropsType): JSX.Element {
   const fullStarsCount= Math.trunc(rating);
 
   const fullStarsList = ratingList.slice(0, fullStarsCount)
-    .map((ratingValue) => <IconRating key={ratingValue} iconName={STAR_FULL_ICON} />);
+    .map((ratingValue) => <IconRating key={ratingValue} isFullStar />);
 
   const starsList = ratingList.slice(fullStarsCount)
-    .map((ratingValue) => <IconRating key={ratingValue} iconName={STAR_ICON} />);
+    .map((ratingValue) => <IconRating key={ratingValue} />);
 
   return (
     <div className="rate product-card__rate" aria-hidden="true">
