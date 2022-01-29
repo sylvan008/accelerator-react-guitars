@@ -1,5 +1,6 @@
 export const AppRoute = ({
   Catalog: '/catalog',
+  Main: '/',
   CatalogPage: '/catalog/page/:pageNumber',
   NotFound: '/404',
 } as const);

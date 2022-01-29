@@ -1,4 +1,5 @@
 import PaginationItem from '../pagination-item/pagination-item';
+import {TestId} from '../../utils/const/test-id';
 
 type PropsType = {
   pageNumber: number,
@@ -25,7 +26,7 @@ function Pagination(props: PropsType): JSX.Element {
   const isNotFirstPage = previouslyPage > 0;
   const isNotLastPage = pageNumber < totalPages;
   return (
-    <div className="pagination page-content__pagination">
+    <div className="pagination page-content__pagination" data-testid={TestId.Pagination}>
       <ul className="pagination__list">
         {isNotFirstPage &&
           <PaginationItem
