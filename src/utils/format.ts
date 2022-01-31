@@ -1,8 +1,8 @@
-import {Locales} from './const/locales';
+import {Locale} from './const/locale';
 
 const CURRENCY_RUBLE = 'RUB';
 
-const currencyFormat = new Intl.NumberFormat(Locales.RU, {
+const currencyFormat = new Intl.NumberFormat(Locale.RU, {
   currency: CURRENCY_RUBLE,
   currencyDisplay: 'symbol',
   minimumFractionDigits: 0,

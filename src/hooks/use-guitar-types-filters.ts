@@ -1,7 +1,7 @@
 import {ChangeEvent, Dispatch, useEffect, useMemo, useState} from 'react';
 import {GuitarType} from '../types/guitar';
 import {GuitarStringCountType} from '../types/filter';
-import {GuitarStringOptions} from '../utils/const/filter';
+import {GuitarStringOption} from '../utils/const/filter';
 
 type LocalState = GuitarType[] | string[];
 type HookChangeEvent = (event: ChangeEvent<HTMLInputElement>) => void;
@@ -19,7 +19,7 @@ function useGuitarTypesFilters(searchGuitarTypes: GuitarType[], searchGuitarStri
   const [checkedGuitarStrings, setCheckedGuitarStrings] = useState<GuitarStringCountType[]>(searchGuitarString);
 
   const guitarStringsSet = useMemo<Set<GuitarStringCountType>>(
-    () => new Set(checkedGuitarTypes.flatMap((guitarType) => GuitarStringOptions[guitarType])),
+    () => new Set(checkedGuitarTypes.flatMap((guitarType) => GuitarStringOption[guitarType])),
     [checkedGuitarTypes],
   );
 

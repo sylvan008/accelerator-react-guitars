@@ -118,7 +118,7 @@ function PageCatalog(): JSX.Element {
               priceMaxSearch={priceMaxSearch}
               searchGuitarTypes={searchGuitarTypes}
               searchGuitarString={searchGuitarStrings}
-              setSearchParams={setSearchParams}
+              onSearchParamsSet={setSearchParams}
             />
             <CatalogSort
               activeDirection={sortDirection}

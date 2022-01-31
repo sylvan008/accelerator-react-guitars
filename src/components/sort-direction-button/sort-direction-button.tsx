@@ -7,7 +7,7 @@ const DIRECTION_ACTIVE_CLASS = 'catalog-sort__order-button--active';
 const DirectionClass = {
   [SortDirection.ASC]: 'catalog-sort__order-button--up',
   [SortDirection.DESC]: 'catalog-sort__order-button--down',
-};
+} as const;
 
 type PropsType = {
   direction: Exclude<Direction, null>,

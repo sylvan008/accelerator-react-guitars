@@ -22,7 +22,7 @@ describe('Component: CatalogFilter', () => {
         priceMaxSearch={priceMaxSearch}
         searchGuitarString={searchGuitarString}
         searchGuitarTypes={searchGuitarTypes}
-        setSearchParams={setSearchParamsMock}
+        onSearchParamsSet={setSearchParamsMock}
       />,
     );
 
