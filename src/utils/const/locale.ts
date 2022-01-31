@@ -1,3 +1,3 @@
-export const Locales = ({
+export const Locale = ({
   RU: 'ru-RU',
 } as const);

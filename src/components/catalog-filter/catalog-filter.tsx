@@ -15,7 +15,7 @@ type PropsType = {
   priceBounds: PriceBounds,
   priceMinSearch: number,
   priceMaxSearch: number,
-  setSearchParams: (params: SearchRecord) => void,
+  onSearchParamsSet: (params: SearchRecord) => void,
 };
 
 function CatalogFilter(props: PropsType): JSX.Element {
@@ -25,7 +25,7 @@ function CatalogFilter(props: PropsType): JSX.Element {
     priceBounds,
     priceMinSearch,
     priceMaxSearch,
-    setSearchParams,
+    onSearchParamsSet,
   } = props;
 
   const inputMinPriceRef = useRef<HTMLInputElement>(null);
@@ -55,18 +55,18 @@ function CatalogFilter(props: PropsType): JSX.Element {
   ] = useGuitarTypesFilters(searchGuitarTypes, searchGuitarString);
 
   useEffect(() => {
-    setSearchParams({
+    onSearchParamsSet({
       [SearchParam.Type]: checkedGuitarTypes.join(' '),
       [SearchParam.Strings]: checkedGuitarStrings.join(' '),
     });
-  }, [checkedGuitarTypes, checkedGuitarStrings, setSearchParams]);
+  }, [checkedGuitarTypes, checkedGuitarStrings, onSearchParamsSet]);
 
   useEffect(() => {
-    setSearchParams({
+    onSearchParamsSet({
       [SearchParam.PriceLte]: priceMin.toString(),
       [SearchParam.PriceGte]: priceMax.toString(),
     });
-  }, [priceMin, priceMax, setSearchParams]);
+  }, [priceMin, priceMax, onSearchParamsSet]);
 
   const [priceMinBound, priceMaxBound] = priceBounds;
   const isEmptyGuitarStringsSet = guitarStringsSet.size === 0;
