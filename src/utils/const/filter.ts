@@ -37,7 +37,7 @@ const guitarStringsFilterItems: GuitarStringFilter[] = (
   }))
 );
 
-const GuitarStringOptions = ({
+const GuitarStringOption = ({
   [GuitarKind.Acoustic]: (['6', '7', '12'] as GuitarStringCount[]),
   [GuitarKind.Electric]: (['4', '6', '7'] as GuitarStringCount[]),
   [GuitarKind.Ukulele]: (['4'] as GuitarStringCount[]),
@@ -47,7 +47,7 @@ export {
   GuitarKind,
   guitarKinds,
   guitarKindFilterItems,
-  GuitarStringOptions,
+  GuitarStringOption,
   guitarStringsFilterItems,
   stringsCounts
 };
