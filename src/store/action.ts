@@ -28,10 +28,13 @@ const setOrder = createAction(
   }),
 );
 
+const setLoadDataError = createAction(ActionType.SetLoadDataError);
+
 export {
   setGuitars,
   setCatalogLoad,
   setPriceBounds,
   setSortType,
-  setOrder
+  setOrder,
+  setLoadDataError
 };
