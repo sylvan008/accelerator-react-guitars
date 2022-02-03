@@ -4,9 +4,11 @@ import {useSearchParams} from '../../hooks/use-search-params';
 import {SearchParam} from '../../utils/const/searchParam';
 import {browserHistory} from '../../services/browser-history';
 import {AppRoute} from '../../utils/const/app-route';
+import {useState} from 'react';
 
 function Search(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isInputFocus, setIsInputFocus] = useState(false);
   const nameSearch = searchParams.get(SearchParam.Name) || '';
 
   const submitFormCallback = (searchData: string) => {
@@ -26,7 +28,11 @@ function Search(): JSX.Element {
     onSearchFormSubmit,
   ] = useSearch(nameSearch, submitFormCallback);
 
-  const isSearching = searchString.length !== 0;
+  const createFocusHandler = (flag: boolean) => () => setIsInputFocus(flag);
+  const onFocus = createFocusHandler(true);
+  const onFocusLeave = createFocusHandler(false);
+
+  const isSearching = isInputFocus && searchString.length > 0;
 
   return (
     <div className="form-search">
@@ -48,6 +54,8 @@ function Search(): JSX.Element {
           placeholder="что вы ищите?"
           value={searchString}
           onChange={onSearchInputChange}
+          onBlur={onFocusLeave}
+          onFocus={onFocus}
         />
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>

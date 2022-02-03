@@ -102,7 +102,7 @@ function PageCatalog(): JSX.Element {
   catalogCards = sliceElementsForPage(catalogCards, pageNumber);
 
   if (!isCatalogLoad) {
-    return <Loader />;
+    return <Loader className="page__loader" />;
   }
 
   return (
