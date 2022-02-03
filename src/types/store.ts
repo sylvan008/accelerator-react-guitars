@@ -6,6 +6,10 @@ type MaxValue = number;
 
 export type PriceBounds = [MinValue, MaxValue];
 
+export type AppState = {
+  isLoadDataError: boolean,
+};
+
 export type Catalog = {
   guitars: Guitar[],
   priceBounds: PriceBounds,

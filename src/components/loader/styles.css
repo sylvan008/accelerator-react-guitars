@@ -1,0 +1,15 @@
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page__loader {
+  height: 100vh;
+}
+
+.catalog__loader {
+  position: fixed;
+  top: 50%;
+  left: 0;
+}

@@ -1,0 +1,17 @@
+.not-found {
+  height: 100vh;
+  text-align: center;
+}
+
+.not-found__link {
+  display: inline-block;
+  font-size: 1.25rem;
+  border: 0.7px solid #585757;
+  border-radius: 2px;
+  transition: color .3s ease,border-color .3s ease;
+  padding: 5px;
+}
+
+.not-found__link:hover {
+  color: #c90606;
+}
