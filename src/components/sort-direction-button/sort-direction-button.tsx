@@ -1,6 +1,7 @@
 import {Direction} from '../../types/sort';
 import {SortingLabel, SortDirection} from '../../utils/const/sorting';
 import {TabIndex} from '../../utils/const/tab-index';
+import './styles.css';
 
 const DIRECTION_ACTIVE_CLASS = 'catalog-sort__order-button--active';
 
