@@ -4,6 +4,7 @@ import {AxiosInstance} from 'axios';
 
 export enum ActionType {
   SetLoadDataError = 'app/set_load_data_error',
+  SetGuitar = 'catalog/set_guitar',
   SetGuitars = 'catalog/set_guitars',
   SetPriceBounds = 'catalog/set_price_bounds',
   SetCatalogLoad = 'catalog/set_catalog_load',
