@@ -2,6 +2,7 @@ export const AppRoute = ({
   Catalog: '/catalog',
   Main: '/',
   CatalogPage: '/catalog/page/:pageNumber',
+  ProductPage: '/catalog/guitar/:id',
   NotFound: '/404',
 } as const);
 

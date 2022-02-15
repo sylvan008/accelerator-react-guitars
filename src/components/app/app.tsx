@@ -7,6 +7,7 @@ import PageCatalog from '../page-catalog/page-catalog';
 import NotFound from '../not-found/not-found';
 import ServerUnavailable from '../server-unavailable/server-unavailable';
 import ErrorBoundary from '../error-boundary/error-boundary';
+import PageProduct from '../page-product';
 
 function App(): JSX.Element {
   const {search} = browserHistory.location;
@@ -23,6 +24,7 @@ function App(): JSX.Element {
           <Redirect exact from="/" to={`${AppRoute.Catalog}${search.toString()}`} />
           <Route exact path={AppRoute.Catalog} component={PageCatalog} />
           <Route exact path={AppRoute.CatalogPage} component={PageCatalog} />
+          <Route exact path={AppRoute.ProductPage} component={PageProduct} />
           <Route component={NotFound} />
         </Switch>
       </Router>
