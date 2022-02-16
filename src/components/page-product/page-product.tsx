@@ -29,7 +29,7 @@ function PageProduct(): JSX.Element {
   }, [guitarId, dispatch]);
 
   if (!guitar) {
-    return <Loader />;
+    return <Loader className="catalog__loader" />;
   }
 
   const {
