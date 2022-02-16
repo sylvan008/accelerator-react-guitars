@@ -1,16 +1,16 @@
-import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {loadGuitar} from '../store/api-action';
+import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import Loader from './loader/loader';
-import {ThunkAppDispatch} from '../types/actionType';
-import {getGuitar} from '../store/catalog-process/selectors';
-import {Guitar} from '../types/guitar';
-import {formatPrice} from '../utils/format';
-import {replaceImagePath} from '../utils/utils';
-import MainLayout from './layouts/main-layout/main-layout';
-import Breadcrumbs from './breadcrumbs/breadcrumbs';
-import ProductRating from './product-rating/product-rating';
+import {useDispatch, useSelector} from 'react-redux';
+import {loadGuitar} from '../../store/api-action';
+import Loader from '../loader/loader';
+import {ThunkAppDispatch} from '../../types/actionType';
+import {getGuitar} from '../../store/catalog-process/selectors';
+import {Guitar} from '../../types/guitar';
+import {formatPrice} from '../../utils/format';
+import {replaceImagePath} from '../../utils/utils';
+import MainLayout from '../layouts/main-layout/main-layout';
+import Breadcrumbs from '../breadcrumbs/breadcrumbs';
+import ProductRating from '../product-rating/product-rating';
 
 type PageParams = {
   id: string,
@@ -20,9 +20,12 @@ function PageProduct(): JSX.Element {
   const {id: guitarId}: PageParams = useParams();
   const guitar: Guitar | null = useSelector(getGuitar);
   const dispatch = useDispatch();
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect( () => {
-    (dispatch as ThunkAppDispatch)(loadGuitar(Number(guitarId)));
+    setIsDataLoaded(false);
+    (dispatch as ThunkAppDispatch)(loadGuitar(Number(guitarId)))
+      .then(() => setIsDataLoaded(true));
   }, [guitarId, dispatch]);
 
   if (!guitar) {
@@ -44,6 +47,7 @@ function PageProduct(): JSX.Element {
     <MainLayout>
       <main className="page-content">
         <div className="container">
+          {!isDataLoaded && <Loader className="catalog__loader" />}
           <h1 className="page-content__title title title--bigger">Товар</h1>
           <Breadcrumbs />
           <div className="product-container">
