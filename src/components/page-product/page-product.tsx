@@ -8,9 +8,13 @@ import {getGuitar} from '../../store/catalog-process/selectors';
 import {Guitar} from '../../types/guitar';
 import {formatPrice} from '../../utils/format';
 import {replaceImagePath} from '../../utils/utils';
+import {ProductTab} from '../../utils/const/product-tabs';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import ProductRating from '../product-rating/product-rating';
+import Tabs from '../tabs/tabs';
+import TabCharacteristic from '../tab-characteristic/tab-characteristic';
+import TabDescription from '../tab-description/tab-description';
 
 type PageParams = {
   id: string,
@@ -61,29 +65,18 @@ function PageProduct(): JSX.Element {
             <div className="product-container__info-wrapper">
               <h2 className="product-container__title title title--big title--uppercase">{name}</h2>
               <ProductRating rating={rating} />
-              <div className="tabs">
-                <a className="button button--medium tabs__button" href="#characteristics">Характеристики</a>
-                <a className="button button--black-border button--medium tabs__button" href="#description">Описание</a>
-                <div className="tabs__content" id="characteristics">
-                  <table className="tabs__table">
-                    <tr className="tabs__table-row">
-                      <td className="tabs__title">Артикул:</td>
-                      <td className="tabs__value">{vendorCode}</td>
-                    </tr>
-                    <tr className="tabs__table-row">
-                      <td className="tabs__title">Тип:</td>
-                      <td className="tabs__value">{type}</td>
-                    </tr>
-                    <tr className="tabs__table-row">
-                      <td className="tabs__title">Количество струн:</td>
-                      <td className="tabs__value">{stringCount}</td>
-                    </tr>
-                  </table>
-                  <p className="tabs__product-description hidden">
-                    {description}
-                  </p>
-                </div>
-              </div>
+              <Tabs>
+                <TabCharacteristic
+                  type={type}
+                  stringCount={stringCount}
+                  vendorCode={vendorCode}
+                  label={ProductTab.Characteristics}
+                />
+                <TabDescription
+                  description={description}
+                  label={ProductTab.Description}
+                />
+              </Tabs>
             </div>
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
