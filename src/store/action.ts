@@ -10,6 +10,13 @@ const setGuitars = createAction(
   }),
 );
 
+const setGuitar = createAction(
+  ActionType.SetGuitar,
+  (guitar: Guitar) => ({
+    payload: guitar,
+  }),
+);
+
 const setPriceBounds = createAction(ActionType.SetPriceBounds);
 
 const setCatalogLoad = createAction(ActionType.SetCatalogLoad);
@@ -31,6 +38,7 @@ const setOrder = createAction(
 const setLoadDataError = createAction(ActionType.SetLoadDataError);
 
 export {
+  setGuitar,
   setGuitars,
   setCatalogLoad,
   setPriceBounds,

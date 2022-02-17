@@ -12,6 +12,7 @@ export type AppState = {
 
 export type Catalog = {
   guitars: Guitar[],
+  guitar: Guitar | null,
   priceBounds: PriceBounds,
   isCatalogLoad: boolean,
 };
