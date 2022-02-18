@@ -6,6 +6,7 @@ import {KeyboardEvent} from 'react';
 import {guitarKinds, stringsCounts} from './const/filter';
 import {GuitarStringCountType} from '../types/filter';
 import {ELEMENTS_PER_PAGE, PAGE_DEFAULT_NUMBER, PAGE_NUMBER_SEPARATOR} from './const/pagination';
+import {Review, ReviewServer} from '../types/review';
 
 const IMAGE = 'img';
 const CLIENT_IMAGE = '/img/content';
@@ -200,7 +201,25 @@ function updateSortDependency(sortType: SortType | null, directionType: Directio
   return [sort, direction];
 }
 
+/**
+ * Адаптирует данные комментария для удобной работы на клиенте
+ */
+function adaptCommentToClient(comment: ReviewServer): Review {
+  return {
+    ...comment,
+    createAt: new Date(comment.createAt),
+  };
+}
+
+/**
+ * Функция сравнения комментариев по убывающей дате.
+ */
+function sortingCommentsByDate(commentA: Review, commentB: Review) {
+  return commentB.createAt.getTime() - commentA.createAt.getTime();
+}
+
 export {
+  adaptCommentToClient,
   checkSort,
   convertSearchStringToArray,
   checkMinMaxPriceValue,
@@ -220,5 +239,6 @@ export {
   parsePageNumberParam,
   sliceElementsForPage,
   sortGuitars,
+  sortingCommentsByDate,
   updateSortDependency
 };
