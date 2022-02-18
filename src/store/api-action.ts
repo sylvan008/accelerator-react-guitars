@@ -3,7 +3,7 @@ import {ApiRoute, RouteParam} from '../utils/const/app-route';
 import {ThunkActionResult} from '../types/actionType';
 import {Guitar} from '../types/guitar';
 import {replaceRouteParam} from '../utils/utils';
-import {Review} from '../types/review';
+import {ReviewServer} from '../types/review';
 import {generatePath} from 'react-router-dom';
 
 const loadGuitars = (): ThunkActionResult =>
@@ -20,7 +20,7 @@ const loadGuitar = (guitarId: number): ThunkActionResult =>
 
 const loadComments = (guitarId: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Review[]>(generatePath(ApiRoute.GetComments, {
+    const {data} = await api.get<ReviewServer[]>(generatePath(ApiRoute.GetComments, {
       id: guitarId,
     }));
     dispatch(setComments(data));

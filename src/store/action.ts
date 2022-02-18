@@ -2,7 +2,7 @@ import {createAction} from '@reduxjs/toolkit';
 import {ActionType} from '../types/actionType';
 import {Guitar} from '../types/guitar';
 import {Order, SortType} from '../types/sort';
-import {Review} from '../types/review';
+import {ReviewServer} from '../types/review';
 
 const setGuitars = createAction(
   ActionType.SetGuitars,
@@ -40,7 +40,7 @@ const setLoadDataError = createAction(ActionType.SetLoadDataError);
 
 const setComments = createAction(
   ActionType.SetComments,
-  (reviews: Review[]) => ({
+  (reviews: ReviewServer[]) => ({
     payload: reviews,
   }),
 );
