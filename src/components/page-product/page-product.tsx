@@ -90,7 +90,7 @@ function PageProduct(): JSX.Element {
               <a className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
             </div>
           </div>
-          <Reviews comments={comments} />
+          <Reviews comments={comments} guitarId={Number(guitarId)} guitarName={name} />
         </div>
       </main>
     </MainLayout>
