@@ -1,4 +1,4 @@
-import {KeyboardEvent, RefObject, useState} from 'react';
+import {RefObject, useState, KeyboardEvent} from 'react';
 import {checkMaxPrice, checkMinPrice, isEnterKey} from '../utils/utils';
 import {PriceBounds} from '../types/store';
 
