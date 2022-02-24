@@ -9,4 +9,6 @@ export type Review = {
   userName: string,
 };
 
+export type ReviewPost = Omit<Review, 'id' | 'createAt'>;
+
 export type ReviewServer = Omit<Review, 'createAt'> & {createAt: string};
