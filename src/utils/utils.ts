@@ -1,8 +1,8 @@
+import React from 'react';
 import {Guitar, GuitarStringCount, GuitarType} from '../types/guitar';
 import {Direction, SortType} from '../types/sort';
 import {SortDirection, SortingType, sortingTypes} from './const/sorting';
 import {PriceBounds} from '../types/store';
-import {KeyboardEvent} from 'react';
 import {guitarKinds, stringsCounts} from './const/filter';
 import {GuitarStringCountType} from '../types/filter';
 import {ELEMENTS_PER_PAGE, PAGE_DEFAULT_NUMBER, PAGE_NUMBER_SEPARATOR} from './const/pagination';
@@ -134,8 +134,15 @@ function isPriceInBounds(bounds: [min: number, max: number], price: number) {
 /**
  * Проверяет что нажатая кнопка является Enter
  */
-function isEnterKey(event: KeyboardEvent) {
+function isEnterKey(event: React.KeyboardEvent) {
   return event.key === 'Enter';
+}
+
+/**
+ * Проверяет что нажатая кнопка является Escape
+ */
+function isEscapeKey(event: KeyboardEvent) {
+  return event.key === 'Esc' || event.key === 'Escape';
 }
 
 function parsePageNumberParam(pageNumberParam: string) {
@@ -231,6 +238,7 @@ export {
   createRangeList,
   getTotalPages,
   isEnterKey,
+  isEscapeKey,
   isPriceInBounds,
   findGuitars,
   getMinMaxPriceValue,
