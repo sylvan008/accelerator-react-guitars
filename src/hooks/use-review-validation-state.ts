@@ -1,44 +1,17 @@
-import {useReducer} from 'react';
+import {useState} from 'react';
 
-type ValidationState = {
-  [x: string]: {
-    [y: string]: boolean,
-  },
-};
-
-type ValidationType = typeof ValidationAction[keyof typeof ValidationAction];
-
-type ValidationActionType = {
-  type: ValidationType,
-  payload: boolean,
-};
-
-const ValidationAction = {
-  Touched: 'touched',
-  Error: 'error',
-} as const;
+export type ValidationState = Record<string, boolean>;
 
 function createValidationState(properties: string[]) {
   const validationState: ValidationState = {};
-  Object.values(ValidationAction)
-    .forEach((validationStateProp) => {
-      const stateProperty: {[x: string]: boolean} = {};
-      properties.forEach((property) => stateProperty[property] = false);
-    });
+  properties.forEach((property) => validationState[property] = false);
   return validationState;
 }
 
-function validationReducer(state: ValidationState, action: ValidationActionType) {
-  switch(action.type) {
-    default:
-      return state;
-  }
-}
+function useReviewValidationState(properties: string[]): [state: ValidationState, dispatch:  React.Dispatch<React.SetStateAction<ValidationState>>] {
+  const [validationState, setValidationState] = useState(createValidationState(properties));
 
-function useReviewValidationState(properties: string[]) {
-  const [validationState, validationDispatch] = useReducer(validationReducer, createValidationState(properties));
-
-  return [validationState, validationDispatch];
+  return [validationState, setValidationState];
 }
 
 export {
