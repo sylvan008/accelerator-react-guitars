@@ -4,12 +4,13 @@ import {isEscapeKey} from '../../utils/utils';
 import './styles.css';
 
 type PropsType = {
+  classNames?: string,
   children: JSX.Element,
   onClose: () => void,
 };
 
 function ModalWindow(props: PropsType): JSX.Element {
-  const {children, onClose} = props;
+  const {children, classNames, onClose} = props;
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,9 +32,11 @@ function ModalWindow(props: PropsType): JSX.Element {
     };
   }, [onClose]);
 
+  const classes = ['modal', 'is-active', classNames ? classNames : ''].join(' ').trim();
+
   return (
     <Portal>
-      <div className="modal is-active">
+      <div className={classes}>
         <div className="modal__wrapper">
           <div className="modal__overlay" data-close-modal="" onClick={onClose} />
           <div className="modal__content" tabIndex={0} aria-label="Всплывающее окно" ref={contentRef}>

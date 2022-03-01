@@ -13,10 +13,11 @@ import ReviewTextarea from '../review-textarea/review-textarea';
 type PropsType = {
   guitarId: number,
   guitarName: string,
+  onSubmitCallback: () => void,
 };
 
 function ReviewForm(props: PropsType): JSX.Element {
-  const {guitarId, guitarName} = props;
+  const {guitarId, guitarName, onSubmitCallback} = props;
   const [formState, formDispatch] = useReviewFormState();
   const [validationState, setValidationState] = useReviewValidationState(Object.keys(formState));
 
@@ -43,6 +44,13 @@ function ReviewForm(props: PropsType): JSX.Element {
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
+    const isFormInvalid = Object.values(validationState)
+      .some((validationValue) => validationValue);
+
+    if (isFormInvalid) {
+      return;
+    }
+
     const formData: ReviewPost = {
       ...formState,
       guitarId,
@@ -51,6 +59,7 @@ function ReviewForm(props: PropsType): JSX.Element {
     try {
 
       await dispatch(postComment(formData));
+      onSubmitCallback();
 
     } catch (error: unknown) {
       const {response} = error as AxiosError;
