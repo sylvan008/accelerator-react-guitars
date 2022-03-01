@@ -5,6 +5,7 @@ type PropsType = {
   id: string,
   isError: boolean,
   label: string,
+  name: string,
   value: string,
   onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void,
 };
@@ -15,6 +16,7 @@ function ReviewInput(props: PropsType): JSX.Element {
     id,
     isError,
     label,
+    name,
     value,
     onChange,
   } = props;
@@ -30,6 +32,7 @@ function ReviewInput(props: PropsType): JSX.Element {
         className={classes}
         id={id}
         autoComplete="off"
+        name={name}
         rows={10}
         value={value}
         onChange={onChange}

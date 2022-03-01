@@ -27,11 +27,12 @@ const ratings = [
 type PropsType = {
   rating: number,
   isInvalid: boolean,
+  name: string,
   onChange: (event: ChangeEvent<HTMLInputElement>) => void,
 };
 
 function RatingReviewForm(props: PropsType): JSX.Element {
-  const {rating, isInvalid, onChange} = props;
+  const {rating, isInvalid, name, onChange} = props;
 
   const isRatingChecked = (rate: number | string) => Number(rate) === rating;
 
@@ -41,6 +42,7 @@ function RatingReviewForm(props: PropsType): JSX.Element {
       <div className="rate rate--reverse">
         {ratings.map(({title, value}) => (
           <ReviewRatingInput
+            name={name}
             key={`rating-${value}`}
             title={title}
             value={value}

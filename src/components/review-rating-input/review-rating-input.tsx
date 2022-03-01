@@ -2,6 +2,7 @@ import {ChangeEvent} from 'react';
 
 type PropsType = {
   isChecked: boolean,
+  name: string,
   title: string,
   value: string,
   onChange: (event: ChangeEvent<HTMLInputElement>) => void,
@@ -10,6 +11,7 @@ type PropsType = {
 function ReviewRatingInput(props: PropsType): JSX.Element {
   const {
     isChecked,
+    name,
     title,
     value,
     onChange,
@@ -19,7 +21,7 @@ function ReviewRatingInput(props: PropsType): JSX.Element {
       <input
         className="visually-hidden"
         type="radio"
-        name="rate"
+        name={name}
         id={`star-${value}`}
         value={value}
         checked={isChecked}
