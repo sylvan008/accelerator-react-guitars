@@ -1,14 +1,17 @@
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
+import {AxiosError} from 'axios';
+import {browserHistory} from '../../services/browser-history';
+import {AppRoute} from '../../utils/const/app-route';
 import {loadComments, loadGuitar} from '../../store/api-action';
-import Loader from '../loader/loader';
 import {ThunkAppDispatch} from '../../types/actionType';
 import {getComments, getGuitar} from '../../store/product-process/selectors';
 import {Guitar} from '../../types/guitar';
 import {formatPrice} from '../../utils/format';
 import {ProductTab} from '../../utils/const/product-tabs';
 import {replaceImagePath} from '../../utils/utils';
+import Loader from '../loader/loader';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import ProductRating from '../product-rating/product-rating';
@@ -33,7 +36,14 @@ function PageProduct(): JSX.Element {
     setIsDataLoaded(false);
     (dispatch as ThunkAppDispatch)(loadGuitar(guitarIdString))
       .then(() => (dispatch as ThunkAppDispatch)(loadComments(guitarIdString)))
-      .then(() => setIsDataLoaded(true));
+      .then(() => setIsDataLoaded(true))
+      .catch((error: AxiosError) => {
+        if (error.response?.status === 404) {
+          browserHistory.push(AppRoute.NotFound);
+        } else {
+          throw error;
+        }
+      });
   }, [guitarId, dispatch]);
 
   if (!guitar) {
