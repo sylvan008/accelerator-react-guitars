@@ -1,16 +1,14 @@
-import {ChangeEvent, FormEvent, useState} from 'react';
-import RatingReviewForm from '../rating-review-form/rating-review-form';
-import {ReviewPost} from '../../types/review';
+import {ChangeEvent, FormEvent} from 'react';
 import {useDispatch} from 'react-redux';
+import {AxiosError} from 'axios';
+import {ReviewPost} from '../../types/review';
 import {ThunkAppDispatch} from '../../types/actionType';
 import {postComment} from '../../store/api-action';
+import {ActionName, FormProperty, useReviewFormState, ValueType} from '../../hooks/use-review-form-state';
+import {useReviewValidationState, ValidationState} from '../../hooks/use-review-validation-state';
+import RatingReviewForm from '../rating-review-form/rating-review-form';
 import ReviewInput from '../review-input/review-input';
 import ReviewTextarea from '../review-textarea/review-textarea';
-
-type InputState = {
-  value: string | number,
-  isTouched: boolean,
-};
 
 type PropsType = {
   guitarId: number,
@@ -19,84 +17,63 @@ type PropsType = {
 
 function ReviewForm(props: PropsType): JSX.Element {
   const {guitarId, guitarName} = props;
-  const [userName, setUserName] = useState({
-    value: '',
-    isTouched: false,
-  });
-  const [advantage, setAdvantage] = useState({
-    value: '',
-    isTouched: false,
-  });
-  const [disadvantage, setDisadvantage] = useState({
-    value: '',
-    isTouched: false,
-  });
-  const [comment, setComment] = useState({
-    value: '',
-    isTouched: false,
-  });
-  const [rating, setRating] = useState({
-    value: 0,
-    isTouched: false,
-  });
+  const [formState, formDispatch] = useReviewFormState();
+  const [validationState, setValidationState] = useReviewValidationState(Object.keys(formState));
 
   const dispatch = useDispatch<ThunkAppDispatch>();
 
-  const checkInputError = ({value, isTouched}: InputState) => isTouched && !value;
+  const checkInputError = (value:ValueType) => !value;
+
+  const catchErrorHandler = (formProperties: string[], messages: string[]) => {
+    const errors: ValidationState = {};
+
+    formProperties.forEach((formProperty) =>
+      messages.forEach((message:string) => {
+        if (message.includes(formProperty)) {
+          errors[formProperty] = true;
+        }
+      }),
+    );
+    setValidationState((prevState) => ({
+      ...prevState,
+      ...errors,
+    }));
+  };
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    setUserName((prevState) => ({
-      ...prevState,
-      isTouched: true,
-    }));
-
-    setRating((prevState) => ({
-      ...prevState,
-      isTouched: true,
-    }));
-
-    if (userName.value === '' || rating.value === 0) {
-      return;
-    }
-
     const formData: ReviewPost = {
+      ...formState,
       guitarId,
-      userName: userName.value,
-      advantage: advantage.value,
-      disadvantage: disadvantage.value,
-      comment: comment.value,
-      rating: rating.value,
     };
 
-    await dispatch(postComment(formData));
+    try {
+
+      await dispatch(postComment(formData));
+
+    } catch (error: unknown) {
+      const {response} = error as AxiosError;
+      if (response?.status === 400) {
+        const {messages} = response.data;
+        catchErrorHandler(Object.keys(formState), messages);
+      }
+    }
   };
 
-  const onUserNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUserName({
-      value: event.target.value,
-      isTouched: true,
-    });
+  const onInputChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+    const propertyName = event.target.name as ActionName;
+    const value = propertyName === FormProperty.Rating ? Number(event.target.value) : event.target.value;
+
+    formDispatch((oldState) => ({
+      ...oldState,
+      [propertyName]: value,
+    }));
+    setValidationState((oldState) => ({
+      ...oldState,
+      [propertyName]: checkInputError(value),
+    }));
   };
-  const onRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRating({
-      value: Number(event.target.value),
-      isTouched: true,
-    });
-  };
-  const onAdvantageChange = (event: ChangeEvent<HTMLInputElement>) => setAdvantage({
-    value: event.target.value,
-    isTouched: true,
-  });
-  const onDisadvantageChange = (event: ChangeEvent<HTMLInputElement>) => setDisadvantage({
-    value: event.target.value,
-    isTouched: true,
-  });
-  const onCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => setComment({
-    value: event.target.value,
-    isTouched: true,
-  });
 
   return (
     <>
@@ -112,34 +89,43 @@ function ReviewForm(props: PropsType): JSX.Element {
               label="Ваше Имя"
               id="user-name"
               className="form-review__input--name"
-              value={userName.value}
-              isError={checkInputError(userName)}
-              onChange={onUserNameChange}
+              name={FormProperty.UserName}
+              value={formState.userName}
+              isError={validationState[FormProperty.UserName]}
+              onChange={onInputChange}
             />
           </div>
 
-          <RatingReviewForm rating={rating.value} isInvalid={checkInputError(rating)} onChange={onRatingChange} />
+          <RatingReviewForm
+            name={FormProperty.Rating}
+            rating={formState.rating}
+            isInvalid={validationState[FormProperty.Rating]}
+            onChange={onInputChange}
+          />
         </div>
         <ReviewInput
           label="Достоинства"
           id="advantage"
-          value={advantage.value}
-          isError={checkInputError(advantage)}
-          onChange={onAdvantageChange}
+          value={formState.advantage}
+          isError={validationState[FormProperty.Advantage]}
+          name={FormProperty.Advantage}
+          onChange={onInputChange}
         />
         <ReviewInput
           label="Недостатки"
           id="disadvantage"
-          value={disadvantage.value}
-          isError={checkInputError(disadvantage)}
-          onChange={onDisadvantageChange}
+          name={FormProperty.Disadvantage}
+          value={formState.disadvantage}
+          isError={validationState[FormProperty.Disadvantage]}
+          onChange={onInputChange}
         />
         <ReviewTextarea
           label="Комментарий"
           id="comment"
-          value={comment.value}
-          isError={checkInputError(comment)}
-          onChange={onCommentChange}
+          name={FormProperty.Comment}
+          value={formState.comment}
+          isError={validationState[FormProperty.Comment]}
+          onChange={onInputChange}
         />
         <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
       </form>
