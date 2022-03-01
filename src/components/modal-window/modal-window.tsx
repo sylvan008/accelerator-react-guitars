@@ -1,4 +1,4 @@
-import Portal from '../protal/portal';
+import Portal from '../portal/portal';
 import {useEffect, useRef} from 'react';
 import {isEscapeKey} from '../../utils/utils';
 import './styles.css';
