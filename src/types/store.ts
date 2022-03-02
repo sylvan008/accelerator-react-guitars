@@ -1,5 +1,6 @@
 import {Guitar, GuitarStringCount, GuitarType} from './guitar';
 import {Order, SortType} from './sort';
+import {ReviewServer} from './review';
 
 type MinValue = number;
 type MaxValue = number;
@@ -12,6 +13,7 @@ export type AppState = {
 
 export type Catalog = {
   guitars: Guitar[],
+  guitar: Guitar | null,
   priceBounds: PriceBounds,
   isCatalogLoad: boolean,
 };
@@ -26,4 +28,9 @@ export type Filter = {
 export type Sort = {
   sort: SortType,
   order: Order,
+};
+
+export type Product = {
+  guitar: Guitar | null,
+  comments: ReviewServer[],
 };

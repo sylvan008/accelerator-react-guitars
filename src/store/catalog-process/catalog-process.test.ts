@@ -11,6 +11,7 @@ describe('Reducer: catalogProcess', () => {
   beforeAll(() => {
     initialState = {
       guitars: [],
+      guitar: null,
       priceBounds: [0, 0],
       isCatalogLoad: false,
     };

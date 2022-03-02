@@ -9,6 +9,8 @@ export enum ActionType {
   SetCatalogLoad = 'catalog/set_catalog_load',
   SetSortType = 'sort/set_sort_type',
   SetOrder = 'sort/set_order',
+  SetGuitar = 'product/set_guitar',
+  SetComments = 'product/set_comments'
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

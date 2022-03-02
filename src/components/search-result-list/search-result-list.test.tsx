@@ -10,8 +10,10 @@ describe('Component: SearchResultList', () => {
   ];
   const nameRegexp = new RegExp(searchResult.map((guitar) => guitar.name).join('|'), 'i');
 
+  const onResultClick = jest.fn();
+
   it('should render correctly', () => {
-    render(<SearchResultList searchResult={searchResult} />);
+    render(<SearchResultList searchResult={searchResult} onResultClick={onResultClick} />);
 
     expect(screen.getAllByText(nameRegexp)).toHaveLength(searchResult.length);
   });
