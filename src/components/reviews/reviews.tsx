@@ -11,6 +11,7 @@ type PropsType = {
   comments: Review[],
   guitarId: number,
   guitarName: string,
+  onCommentsUpdate: () => Promise<void>,
 };
 
 function createCloseHandler<T extends (flag: boolean) => void>(setPopupShowState: T, isOpen = false) {
@@ -18,7 +19,7 @@ function createCloseHandler<T extends (flag: boolean) => void>(setPopupShowState
 }
 
 function Reviews(props: PropsType): JSX.Element {
-  const {comments, guitarId, guitarName} = props;
+  const {comments, guitarId, guitarName, onCommentsUpdate} = props;
   const [viewCommentsCount, setViewCommentsCount] = useState(REVIEW_LOAD_STEP);
   const [isCommentFormShow, setIsCommentFormShow] = useState(false);
   const [isMessageShow, setIsMessageShow] = useState(false);
@@ -40,9 +41,10 @@ function Reviews(props: PropsType): JSX.Element {
   const onCommentFormShow = createCloseHandler(setIsCommentFormShow, true);
   const onCommentFormClose = createCloseHandler(setIsCommentFormShow);
   const onMessageClose = createCloseHandler(setIsMessageShow);
-  const onSubmitCallback = () => {
+  const onSubmitCallback = async () => {
     onCommentFormClose();
     setIsMessageShow(true);
+    await onCommentsUpdate();
   };
 
   return (

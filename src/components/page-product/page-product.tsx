@@ -31,11 +31,15 @@ function PageProduct(): JSX.Element {
   const dispatch = useDispatch();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
+  const createFetchComments = (idFromGuitar: number) =>
+    () => (dispatch as ThunkAppDispatch)(loadComments(idFromGuitar));
+  const fetchComments = createFetchComments(Number(guitarId));
+
   useEffect( () => {
     const guitarIdString =  Number(guitarId);
     setIsDataLoaded(false);
     (dispatch as ThunkAppDispatch)(loadGuitar(guitarIdString))
-      .then(() => (dispatch as ThunkAppDispatch)(loadComments(guitarIdString)))
+      .then(fetchComments)
       .then(() => setIsDataLoaded(true))
       .catch((error: AxiosError) => {
         if (error.response?.status === 404) {
@@ -100,7 +104,7 @@ function PageProduct(): JSX.Element {
               <a className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
             </div>
           </div>
-          <Reviews comments={comments} guitarId={Number(guitarId)} guitarName={name} />
+          <Reviews comments={comments} guitarId={Number(guitarId)} guitarName={name} onCommentsUpdate={fetchComments} />
         </div>
       </main>
     </MainLayout>
