@@ -23,6 +23,9 @@ import {Direction, SortType} from '../../types/sort';
 import {GuitarType} from '../../types/guitar';
 import {GuitarStringCountType} from '../../types/filter';
 import {filterByName, filterByPrice, filterByStrings, filterByType} from '../../utils/filters';
+import {browserHistory} from '../../services/browser-history';
+import {AppRoute, RouteParam} from '../../utils/const/app-route';
+import {PageName} from '../../hooks/use-breadcrumbs';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 import CatalogFilter from '../catalog-filter/catalog-filter';
@@ -30,8 +33,6 @@ import CatalogSort from '../catalog-sort/catalog-sort';
 import Pagination from '../pagination/pagination';
 import CatalogList from '../catalog-list/catalog-list';
 import Loader from '../loader/loader';
-import {browserHistory} from '../../services/browser-history';
-import {AppRoute, RouteParam} from '../../utils/const/app-route';
 
 type RouteParams = {
   pageNumber: string,
@@ -110,7 +111,7 @@ function PageCatalog(): JSX.Element {
       <main className="page-content">
         <div className="container">
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
-          <Breadcrumbs />
+          <Breadcrumbs pageName={PageName.Catalog} />
           <div className="catalog">
             <CatalogFilter
               priceBounds={priceBounds}

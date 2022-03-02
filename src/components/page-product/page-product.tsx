@@ -11,6 +11,7 @@ import {Guitar} from '../../types/guitar';
 import {formatPrice} from '../../utils/format';
 import {ProductTab} from '../../utils/const/product-tabs';
 import {replaceImagePath} from '../../utils/utils';
+import {PageName} from '../../hooks/use-breadcrumbs';
 import Loader from '../loader/loader';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Breadcrumbs from '../breadcrumbs/breadcrumbs';
@@ -71,7 +72,7 @@ function PageProduct(): JSX.Element {
         <div className="container">
           {!isDataLoaded && <Loader className="catalog__loader" />}
           <h1 className="page-content__title title title--bigger">Товар</h1>
-          <Breadcrumbs />
+          <Breadcrumbs text={name} pageName={PageName.Product} />
           <div className="product-container">
             <img
               className="product-container__img"
