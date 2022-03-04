@@ -1,5 +1,5 @@
 import {Review} from '../../types/review';
-import ReviewRating from '../review-rating/review-tating';
+import ReviewRating from '../review-rating/review-rating';
 import {formatDateMonth} from '../../utils/format';
 import {TestId} from '../../utils/const/test-id';
 
