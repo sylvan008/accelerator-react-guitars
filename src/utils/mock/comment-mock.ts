@@ -4,7 +4,7 @@ import {getRandomIntegerNumber} from './helpers';
 
 const INPUT_LENGTH = 10;
 
-function creatMockReview(): Review {
+function createMockReview(): Review {
   return {
     advantage: faker.lorem.words(INPUT_LENGTH),
     comment: faker.lorem.words(INPUT_LENGTH),
@@ -18,5 +18,5 @@ function creatMockReview(): Review {
 }
 
 export {
-  creatMockReview
+  createMockReview
 };
