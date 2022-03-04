@@ -8,4 +8,5 @@ export const TestId = ({
   MainNav: 'main-nav',
   Pagination: 'pagination',
   PaginationItem: 'pagination-item',
+  PortalContainer: 'portal-container',
 } as const);
