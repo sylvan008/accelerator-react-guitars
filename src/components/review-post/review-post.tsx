@@ -1,6 +1,7 @@
 import {Review} from '../../types/review';
 import ReviewRating from '../review-rating/review-tating';
 import {formatDateMonth} from '../../utils/format';
+import {TestId} from '../../utils/const/test-id';
 
 type PropsType = {
   comment: Review
@@ -19,7 +20,7 @@ function ReviewPost(props: PropsType): JSX.Element {
   } = props;
 
   return (
-    <div className="review">
+    <div className="review" data-testid={TestId.ReviewPost}>
       <div className="review__wrapper">
         <h4 className="review__title review__title--author title title--lesser">
           {userName}

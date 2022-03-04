@@ -1,6 +1,7 @@
 export const TestId = ({
   RatingEmpty: 'rating-empty',
   RatingFull: 'rating-full',
+  ReviewPost: 'review-post',
   FilterCheckbox: 'filter-checkbox',
   MainFooter: 'main-footer',
   MainHeader: 'main-header',
