@@ -1,7 +1,7 @@
 import {render, screen} from '@testing-library/react';
-import Rating from './rating';
-import {IconSize} from '../icon-rating/icon-rating';
 import {TestId} from '../../utils/const/test-id';
+import {IconSize} from '../../types/icon';
+import Rating from './rating';
 
 describe('Component: Rating', () => {
   const ratingRegexp = /рейтинг:/i;
