@@ -1,9 +1,8 @@
 import {TestId} from '../../utils/const/test-id';
+import {IconSize} from '../../types/icon';
 
 const STAR_FULL_ICON = 'icon-full-star';
 const STAR_ICON = 'icon-star';
-
-export type IconSize = [width: number, height: number];
 
 type PropsType = {
   iconSizes?: IconSize,

@@ -9,10 +9,13 @@ import App from './app';
 const mockStore = getMockStore();
 
 const store = mockStore({
-  [NameSpace.Catalog as string]: {
+  [NameSpace.Catalog]: {
     guitars: [],
     priceBounds: [0, 0],
     isCatalogLoad: true,
+  },
+  [NameSpace.App]: {
+    isLoadDataError: false,
   },
 });
 

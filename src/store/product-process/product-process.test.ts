@@ -3,7 +3,7 @@ import {UNKNOWN_ACTION} from '../../utils/const/test-const';
 import {productProcess} from './product-process';
 import {createMockGuitar} from '../../utils/mock/guitar-mock';
 import {ActionType} from '../../types/actionType';
-import {creatMockReview} from '../../utils/mock/comment-mock';
+import {createMockReview} from '../../utils/mock/comment-mock';
 
 describe('Reducer: catalogProcess', () => {
   let initialState: Product;
@@ -36,9 +36,9 @@ describe('Reducer: catalogProcess', () => {
 
   it('should update Comments', () => {
     const comments = [
-      creatMockReview(),
-      creatMockReview(),
-      creatMockReview(),
+      createMockReview(),
+      createMockReview(),
+      createMockReview(),
     ];
 
     const reviewAction = {

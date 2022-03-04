@@ -1,5 +1,6 @@
-import IconRating, {IconSize} from '../icon-rating/icon-rating';
+import IconRating from '../icon-rating/icon-rating';
 import {createRangeList} from '../../utils/utils';
+import {IconSize} from '../../types/icon';
 
 type PropsType = {
   rating: number,

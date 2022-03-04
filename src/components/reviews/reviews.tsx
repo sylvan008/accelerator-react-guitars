@@ -1,6 +1,6 @@
 import {Review} from '../../types/review';
 import {useEffect, useRef, useState} from 'react';
-import ReviewPost from '../review/reviewPost';
+import ReviewPost from '../review-post/review-post';
 import ModalWindow from '../modal-window/modal-window';
 import ReviewForm from '../review-form/review-form';
 import ModalMessage from '../modal-message/modal-message';
