@@ -1,9 +1,10 @@
 import {Review} from '../../types/review';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState, MouseEvent} from 'react';
 import ReviewPost from '../review-post/review-post';
 import ModalWindow from '../modal-window/modal-window';
 import ReviewForm from '../review-form/review-form';
 import ModalMessage from '../modal-message/modal-message';
+import './style.css';
 
 const REVIEW_LOAD_STEP = 3;
 
@@ -38,7 +39,10 @@ function Reviews(props: PropsType): JSX.Element {
   const showComments = comments.slice(0, viewCommentsCount);
   const isHasMore = viewCommentsCount < comments.length;
 
-  const onCommentFormShow = createCloseHandler(setIsCommentFormShow, true);
+  const onCommentFormShow = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setIsCommentFormShow(true);
+  };
   const onCommentFormClose = createCloseHandler(setIsCommentFormShow);
   const onMessageClose = createCloseHandler(setIsMessageShow);
   const onSubmitCallback = async () => {

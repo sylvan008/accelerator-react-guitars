@@ -8,7 +8,7 @@ function MainHeader(): JSX.Element {
   return (
     <header className="header" id="header" data-testid={TestId.MainHeader}>
       <div className="container header__wrapper">
-        <Logo />
+        <Logo className="header__logo" />
         <MainNav />
         <Search />
         <ShoppingCart />

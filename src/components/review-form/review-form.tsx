@@ -44,13 +44,6 @@ function ReviewForm(props: PropsType): JSX.Element {
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const isFormInvalid = Object.values(validationState)
-      .some((validationValue) => validationValue);
-
-    if (isFormInvalid) {
-      return;
-    }
-
     const formData: ReviewPost = {
       ...formState,
       guitarId,
@@ -102,6 +95,7 @@ function ReviewForm(props: PropsType): JSX.Element {
               value={formState.userName}
               isError={validationState[FormProperty.UserName]}
               onChange={onInputChange}
+              isFocus
             />
           </div>
 

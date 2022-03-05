@@ -9,7 +9,7 @@ function MainFooter(): JSX.Element {
   return (
     <footer className="footer" data-testid={TestId.MainFooter}>
       <div className="footer__container container">
-        <Logo />
+        <Logo className="footer__logo" />
         <Socials />
         <FooterAboutUs />
         <FooterInformation />

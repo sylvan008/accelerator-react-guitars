@@ -1,9 +1,10 @@
-import {ChangeEvent} from 'react';
+import {ChangeEvent, useEffect, useRef} from 'react';
 
 type PropsType = {
   className?: string,
   id: string,
   isError: boolean,
+  isFocus?: boolean,
   name?: string,
   label: string,
   value: string,
@@ -15,13 +16,25 @@ function ReviewInput(props: PropsType): JSX.Element {
     className,
     id,
     isError,
+    isFocus = false,
     label,
     name,
     value,
     onChange,
   } = props;
 
+  const inputRef = useRef<HTMLInputElement>(null);
   const classes = ['form-review__input', className ? className : ''].join(' ').trim();
+
+  useEffect(() => {
+    if (isFocus) {
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 0);
+    }
+  }, [isFocus, inputRef]);
 
   return (
     <>
@@ -34,6 +47,7 @@ function ReviewInput(props: PropsType): JSX.Element {
         type="text"
         autoComplete="off"
         name={name}
+        ref={inputRef}
         value={value}
         onChange={onChange}
       />
