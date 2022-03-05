@@ -4,6 +4,7 @@ import ReviewPost from '../review-post/review-post';
 import ModalWindow from '../modal-window/modal-window';
 import ReviewForm from '../review-form/review-form';
 import ModalMessage from '../modal-message/modal-message';
+import './style.css';
 
 const REVIEW_LOAD_STEP = 3;
 
