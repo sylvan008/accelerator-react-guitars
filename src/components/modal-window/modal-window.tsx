@@ -1,6 +1,7 @@
 import Portal from '../portal/portal';
 import {useEffect} from 'react';
 import {isEscapeKey} from '../../utils/utils';
+import FocusTrap from 'focus-trap-react';
 import './styles.css';
 
 type PropsType = {
@@ -32,25 +33,27 @@ function ModalWindow(props: PropsType): JSX.Element {
 
   return (
     <Portal>
-      <div className={classes}>
-        <div className="modal__wrapper">
-          <div className="modal__overlay" data-close-modal="" onClick={onClose} />
-          <div className="modal__content" tabIndex={0} aria-label="Всплывающее окно">
+      <FocusTrap>
+        <div className={classes}>
+          <div className="modal__wrapper">
+            <div className="modal__overlay" data-close-modal="" onClick={onClose} />
+            <div className="modal__content" aria-label="Всплывающее окно">
 
-            {children}
+              {children}
 
-            <button
-              className="modal__close-btn button-cross"
-              type="button"
-              aria-label="Закрыть"
-              onClick={onClose}
-            >
-              <span className="button-cross__icon" />
-              <span className="modal__close-btn-interactive-area" />
-            </button>
+              <button
+                className="modal__close-btn button-cross"
+                type="button"
+                aria-label="Закрыть"
+                onClick={onClose}
+              >
+                <span className="button-cross__icon" />
+                <span className="modal__close-btn-interactive-area" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </FocusTrap>
     </Portal>
   );
 }
