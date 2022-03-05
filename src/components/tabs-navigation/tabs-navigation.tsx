@@ -1,5 +1,5 @@
-import {productTabs} from '../../utils/const/product-tabs';
 import {MouseEvent} from 'react';
+import {productTabs} from '../../utils/const/product-tabs';
 
 const INACTIVE_CLASS = 'button--black-border';
 
