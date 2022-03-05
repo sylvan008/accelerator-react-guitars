@@ -1,4 +1,5 @@
 import {productTabs} from '../../utils/const/product-tabs';
+import {MouseEvent} from 'react';
 
 const INACTIVE_CLASS = 'button--black-border';
 
@@ -14,7 +15,10 @@ function TabsNavigation(props: PropsType): JSX.Element {
     .join(' ')
     .trim();
 
-  const createTabClickHandler = (tabType: string) => () => onTabClick(tabType);
+  const createTabClickHandler = (tabType: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    onTabClick(tabType);
+  };
 
   return (
     <>
