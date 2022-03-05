@@ -1,5 +1,5 @@
 import Portal from '../portal/portal';
-import {useEffect, useRef} from 'react';
+import {useEffect} from 'react';
 import {isEscapeKey} from '../../utils/utils';
 import './styles.css';
 
@@ -11,7 +11,6 @@ type PropsType = {
 
 function ModalWindow(props: PropsType): JSX.Element {
   const {children, classNames, onClose} = props;
-  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const closeModalHandler = (event: KeyboardEvent) => {
@@ -20,9 +19,6 @@ function ModalWindow(props: PropsType): JSX.Element {
       }
     };
 
-    if (contentRef.current) {
-      contentRef.current.focus();
-    }
     document.body.classList.add('modal--opened');
     document.addEventListener('keydown', closeModalHandler);
 
@@ -39,7 +35,7 @@ function ModalWindow(props: PropsType): JSX.Element {
       <div className={classes}>
         <div className="modal__wrapper">
           <div className="modal__overlay" data-close-modal="" onClick={onClose} />
-          <div className="modal__content" tabIndex={0} aria-label="Всплывающее окно" ref={contentRef}>
+          <div className="modal__content" tabIndex={0} aria-label="Всплывающее окно">
 
             {children}
 

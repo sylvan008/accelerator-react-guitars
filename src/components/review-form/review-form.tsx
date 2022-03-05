@@ -102,6 +102,7 @@ function ReviewForm(props: PropsType): JSX.Element {
               value={formState.userName}
               isError={validationState[FormProperty.UserName]}
               onChange={onInputChange}
+              isFocus
             />
           </div>
 
