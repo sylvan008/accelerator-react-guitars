@@ -76,7 +76,7 @@ function Reviews(props: PropsType): JSX.Element {
       <a className="button button--up button--red-border button--big reviews__up-button" href="#header">Наверх</a>
 
       {isCommentFormShow && (
-        <ModalWindow onClose={onCommentFormClose}>
+        <ModalWindow onClose={onCommentFormClose} classNames="modal--review">
           <ReviewForm guitarId={guitarId} guitarName={guitarName} onSubmitCallback={onSubmitCallback} />
         </ModalWindow>
       )}

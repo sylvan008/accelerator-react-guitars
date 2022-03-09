@@ -21,7 +21,7 @@ function ReviewInput(props: PropsType): JSX.Element {
     onChange,
   } = props;
 
-  const classes = ['form-review__input', className ? className : ''].join(' ').trim();
+  const classes = ['form-review__input', 'form-review__input--textarea', className ? className : ''].join(' ').trim();
 
   return (
     <>
