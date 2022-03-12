@@ -1,4 +1,5 @@
 export const AppRoute = ({
+  Cart: '/cart',
   Catalog: '/catalog',
   Main: '/',
   CatalogPage: '/catalog/page/:pageNumber',
