@@ -2,7 +2,7 @@ import React from 'react';
 import {Guitar, GuitarStringCount, GuitarType} from '../types/guitar';
 import {Direction, SortType} from '../types/sort';
 import {SortDirection, SortingType, sortingTypes} from './const/sorting';
-import {PriceBounds} from '../types/store';
+import {CartItem, PriceBounds} from '../types/store';
 import {guitarKinds, stringsCounts} from './const/filter';
 import {GuitarStringCountType} from '../types/filter';
 import {ELEMENTS_PER_PAGE, PAGE_DEFAULT_NUMBER, PAGE_NUMBER_SEPARATOR} from './const/pagination';
@@ -225,6 +225,10 @@ function sortingCommentsByDate(commentA: Review, commentB: Review) {
   return commentB.createAt.getTime() - commentA.createAt.getTime();
 }
 
+function removeCartItemById(items: CartItem[], guitarId: number): CartItem[] {
+  return items.filter((item) => item.guitarId !== guitarId);
+}
+
 export {
   adaptCommentToClient,
   checkSort,
@@ -242,6 +246,7 @@ export {
   isPriceInBounds,
   findGuitars,
   getMinMaxPriceValue,
+  removeCartItemById,
   replaceImagePath,
   replaceRouteParam,
   parsePageNumberParam,
