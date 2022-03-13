@@ -53,10 +53,24 @@ const addCartItem = createAction(
   }),
 );
 
-const addCoupon = createAction(
-  ActionType.AddCoupon,
+const addCartItems = createAction(
+  ActionType.AddCartItems,
+  (cartItem: CartItem[]) => ({
+    payload: cartItem,
+  }),
+);
+
+const addAppliedCoupon = createAction(
+  ActionType.AddAppliedCoupon,
   (coupon: string) => ({
     payload: coupon,
+  }),
+);
+
+const addDiscount = createAction(
+  ActionType.AddCoupon,
+  (discount: number) => ({
+    payload: discount,
   }),
 );
 
@@ -75,10 +89,12 @@ const removeCartItemAll = createAction(
 );
 
 export {
+  addAppliedCoupon,
   addCartItem,
-  addCoupon,
+  addCartItems,
   removeCartItem,
   removeCartItemAll,
+  addDiscount,
   setGuitar,
   setGuitars,
   setCatalogLoad,

@@ -38,6 +38,7 @@ export type Product = {
 export type CartItem = number;
 
 export type Cart = {
+  appliedCoupon: string,
   items: CartItem[],
-  coupon: string | null,
+  discount: number,
 };
