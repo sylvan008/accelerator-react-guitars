@@ -6,7 +6,7 @@ import {getIsLoadDataError} from '../../store/app-process/selectors';
 import PageCatalog from '../page-catalog/page-catalog';
 import NotFound from '../not-found/not-found';
 import PageProduct from '../page-product/page-product';
-import PageCart from '../page-cart';
+import PageCart from '../page-cart/page-cart';
 import ServerUnavailable from '../server-unavailable/server-unavailable';
 import ErrorBoundary from '../error-boundary/error-boundary';
 
