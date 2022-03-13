@@ -10,12 +10,13 @@ describe('Component: CatalogList', () => {
     createMockGuitar(),
     createMockGuitar(),
   ];
-
   const history = createMemoryHistory();
+
+  const onBuyClick = jest.fn();
 
   const fakeApp = (
     <Router history={history}>
-      <CatalogList guitars={guitars} />
+      <CatalogList guitars={guitars} onBuyClick={onBuyClick} />
     </Router>
   );
 

@@ -1,3 +1,4 @@
+import {MouseEvent} from 'react';
 import {Link} from 'react-router-dom';
 import {Guitar} from '../../types/guitar';
 import {replaceImagePath, replaceRouteParam} from '../../utils/utils';
@@ -7,10 +8,36 @@ import CardRating from '../card-rating/card-rating';
 
 type PropsType = {
   guitar: Guitar,
+  isInCart: boolean,
+  onBuyClick: (guitarId: number) => void,
 }
 
 function CatalogCard(props: PropsType): JSX.Element {
-  const {guitar} = props;
+  const {guitar, isInCart, onBuyClick} = props;
+
+  const buyClickHandler = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    onBuyClick(guitar.id);
+  };
+
+  const addToCartButton = (
+    <a
+      className="button button--red button--mini button--add-to-cart"
+      href="#"
+      onClick={buyClickHandler}
+    >
+      Купить
+    </a>
+  );
+
+  const cartLink = (
+    <Link to={AppRoute.Cart} className="button button--red-border button--mini button--in-cart">
+      В корзине
+    </Link>
+  );
+
+  const actionElement = isInCart ? cartLink : addToCartButton;
+
   const {
     id,
     name,
@@ -36,9 +63,7 @@ function CatalogCard(props: PropsType): JSX.Element {
         >
           Подробнее
         </Link>
-        <a className="button button--red button--mini button--add-to-cart" href="#">
-          Купить
-        </a>
+        {actionElement}
       </div>
     </div>
   );
