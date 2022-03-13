@@ -1,6 +1,6 @@
 import {Cart} from '../../types/store';
 import {createReducer} from '@reduxjs/toolkit';
-import {addCartItem, addCoupon, removeCartItem} from '../action';
+import {addCartItem, addCoupon, removeCartItem, removeCartItemAll} from '../action';
 import {removeCartItemById} from '../../utils/utils';
 
 const initialState: Cart = {
@@ -17,7 +17,7 @@ const cartProcess = createReducer(initialState, (builder) => {
       const productIndex = state.items.findIndex((element) => element === action.payload);
       state.items = state.items.splice(productIndex, 1);
     })
-    .addCase(removeCartItem, (state, action) => {
+    .addCase(removeCartItemAll, (state, action) => {
       state.items = removeCartItemById(state.items, action.payload);
     })
     .addCase(addCoupon, (state, action) => {

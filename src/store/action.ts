@@ -68,7 +68,7 @@ const removeCartItem = createAction(
 );
 
 const removeCartItemAll = createAction(
-  ActionType.RemoveCartItem,
+  ActionType.RemoveCartItemAll,
   (guitarId: number) => ({
     payload: guitarId,
   }),
