@@ -226,7 +226,7 @@ function sortingCommentsByDate(commentA: Review, commentB: Review) {
 }
 
 function removeCartItemById(items: CartItem[], guitarId: number): CartItem[] {
-  return items.filter((item) => item.guitarId !== guitarId);
+  return items.filter((item) => item !== guitarId);
 }
 
 export {

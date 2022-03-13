@@ -53,13 +53,6 @@ const addCartItem = createAction(
   }),
 );
 
-const addCartItemCount = createAction(
-  ActionType.AddCartItemCount,
-  (cartItem: CartItem) => ({
-    payload: cartItem,
-  }),
-);
-
 const addCoupon = createAction(
   ActionType.AddCoupon,
   (coupon: string) => ({
@@ -74,11 +67,18 @@ const removeCartItem = createAction(
   }),
 );
 
+const removeCartItemAll = createAction(
+  ActionType.RemoveCartItem,
+  (guitarId: number) => ({
+    payload: guitarId,
+  }),
+);
+
 export {
   addCartItem,
-  addCartItemCount,
   addCoupon,
   removeCartItem,
+  removeCartItemAll,
   setGuitar,
   setGuitars,
   setCatalogLoad,

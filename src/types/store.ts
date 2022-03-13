@@ -35,10 +35,7 @@ export type Product = {
   comments: ReviewServer[],
 };
 
-export type CartItem = {
-  guitarId: number,
-  count: number
-}
+export type CartItem = number;
 
 export type Cart = {
   items: CartItem[],

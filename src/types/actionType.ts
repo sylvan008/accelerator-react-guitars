@@ -5,8 +5,8 @@ import {AxiosInstance} from 'axios';
 export enum ActionType {
   AddCoupon = 'cart/add-coupon',
   AddCartItem = 'cart/add-cart-item',
-  AddCartItemCount = 'cart/add-cart-item-count',
   RemoveCartItem = 'cart/remove-cart-item',
+  RemoveCartItemAll = 'cart/remove-cart-item-all',
   SetLoadDataError = 'app/set_load_data_error',
   SetGuitars = 'catalog/set_guitars',
   SetPriceBounds = 'catalog/set_price_bounds',

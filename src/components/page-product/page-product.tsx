@@ -20,7 +20,7 @@ import Tabs from '../tabs/tabs';
 import TabCharacteristic from '../tab-characteristic/tab-characteristic';
 import TabDescription from '../tab-description/tab-description';
 import Reviews from '../reviews/reviews';
-import {addCartItemCount} from '../../store/action';
+import {addCartItem} from '../../store/action';
 import ModalAddToCart from '../modal-add-to-cart/modal-add-to-cart';
 import ModalAddCartSuccess from '../modal-add-cart-success/modal-add-cart-success';
 
@@ -68,17 +68,13 @@ function PageProduct(): JSX.Element {
   };
   const onAddToCartModalClose = () => setIsAddToCartModalShow(false);
   const onCartItemAdd = () => {
-    const cartItem = {
-      guitarId: Number(guitarId),
-      count: 1,
-    };
-    dispatch(addCartItemCount(cartItem));
+    dispatch(addCartItem(Number(guitarId)));
     setIsAddToCartModalShow(false);
     setIsAddCartSuccessShow(true);
   };
 
   const onCartSuccessContinue = () => {
-    browserHistory.push(AppRoute.Cart);
+    browserHistory.push(AppRoute.Catalog);
   };
 
   const {
