@@ -16,11 +16,13 @@ import {
   removeCartItem,
   removeCartItemAll
 } from '../../store/action';
+import {PageName} from '../../hooks/use-breadcrumbs';
 import CartItem from '../cart-item/cart-item';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Loader from '../loader/loader';
 import InputMessage from '../input-message/input-message';
 import ModalCartItemRemove from '../modal-cart-item-remove/modal-cart-item-remove';
+import Breadcrumbs from '../breadcrumbs/breadcrumbs';
 
 function PageCart(): JSX.Element {
   const dispatch = useDispatch();
@@ -103,17 +105,7 @@ function PageCart(): JSX.Element {
       <main className="page-content">
         <div className="container">
           <h1 className="title title--bigger page-content__title">Корзина</h1>
-          <ul className="breadcrumbs page-content__breadcrumbs page-content__breadcrumbs--on-cart-page">
-            <li className="breadcrumbs__item">
-              <a className="link" href="./main.html">Главная</a>
-            </li>
-            <li className="breadcrumbs__item">
-              <a className="link" href="./main.html">Каталог</a>
-            </li>
-            <li className="breadcrumbs__item">
-              <a className="link">Корзина</a>
-            </li>
-          </ul>
+          <Breadcrumbs pageName={PageName.Cart} />
 
           <div className="cart">
             {guitars.map((guitar) => (
