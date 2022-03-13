@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {MouseEvent, useCallback, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {AxiosError} from 'axios';
@@ -20,6 +20,9 @@ import Tabs from '../tabs/tabs';
 import TabCharacteristic from '../tab-characteristic/tab-characteristic';
 import TabDescription from '../tab-description/tab-description';
 import Reviews from '../reviews/reviews';
+import {addCartItemCount} from '../../store/action';
+import ModalAddToCart from '../modal-add-to-cart/modal-add-to-cart';
+import ModalAddCartSuccess from '../modal-add-cart-success/modal-add-cart-success';
 
 type PageParams = {
   id: string,
@@ -31,10 +34,13 @@ function PageProduct(): JSX.Element {
   const comments = useSelector(getComments);
   const dispatch = useDispatch();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [isAddToCartModalShow, setIsAddToCartModalShow] = useState(false);
+  const [isAddCartSuccessShow, setIsAddCartSuccessShow] = useState(false);
 
-  const createFetchComments = (idFromGuitar: number) =>
-    () => (dispatch as ThunkAppDispatch)(loadComments(idFromGuitar));
-  const fetchComments = createFetchComments(Number(guitarId));
+  const fetchComments = useCallback(
+    () => (dispatch as ThunkAppDispatch)(loadComments(Number(guitarId))),
+    [dispatch, guitarId],
+  );
 
   useEffect( () => {
     const guitarIdString =  Number(guitarId);
@@ -49,11 +55,31 @@ function PageProduct(): JSX.Element {
           throw error;
         }
       });
-  }, [guitarId, dispatch]);
+  }, [guitarId, dispatch, fetchComments]);
 
   if (!guitar) {
     return <Loader className="catalog__loader" />;
   }
+
+  const onAddCartSuccessClose = () => setIsAddCartSuccessShow(false);
+  const onAddToCartModalShow = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setIsAddToCartModalShow(true);
+  };
+  const onAddToCartModalClose = () => setIsAddToCartModalShow(false);
+  const onCartItemAdd = () => {
+    const cartItem = {
+      guitarId: Number(guitarId),
+      count: 1,
+    };
+    dispatch(addCartItemCount(cartItem));
+    setIsAddToCartModalShow(false);
+    setIsAddCartSuccessShow(true);
+  };
+
+  const onCartSuccessContinue = () => {
+    browserHistory.push(AppRoute.Cart);
+  };
 
   const {
     description,
@@ -65,6 +91,7 @@ function PageProduct(): JSX.Element {
     type,
     vendorCode,
   } = guitar;
+
 
   return (
     <MainLayout>
@@ -102,11 +129,23 @@ function PageProduct(): JSX.Element {
               <p className="product-container__price-info product-container__price-info--value">
                 {formatPrice(price)}
               </p>
-              <a className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
+              <a
+                className="button button--red button--big product-container__button"
+                href="#"
+                onClick={onAddToCartModalShow}
+              >
+                Добавить в корзину
+              </a>
             </div>
           </div>
           <Reviews comments={comments} guitarId={Number(guitarId)} guitarName={name} onCommentsUpdate={fetchComments} />
         </div>
+        {isAddToCartModalShow && (
+          <ModalAddToCart guitar={guitar} onCartItemAdd={onCartItemAdd} onClose={onAddToCartModalClose} />
+        )}
+        {isAddCartSuccessShow && (
+          <ModalAddCartSuccess onClose={onAddCartSuccessClose} onContinueClick={onCartSuccessContinue} />
+        )}
       </main>
     </MainLayout>
   );
