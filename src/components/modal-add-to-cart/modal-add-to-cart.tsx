@@ -1,8 +1,6 @@
 import {Guitar} from '../../types/guitar';
-import {formatPrice} from '../../utils/format';
-import {replaceImagePath} from '../../utils/utils';
-import {GuitarDictionary} from '../../utils/const/locale';
 import ModalWindow from '../modal-window/modal-window';
+import ModalInfo from '../modal-info/modal-info';
 
 type PropsType = {
   guitar: Guitar,
@@ -17,24 +15,14 @@ function ModalAddToCart(props: PropsType): JSX.Element {
     <ModalWindow onClose={onClose}>
       <>
         <h2 className="modal__header title title--medium">Добавить товар в корзину</h2>
-        <div className="modal__info">
-          <img
-            className="modal__img"
-            src={replaceImagePath(previewImg)}
-            width="67"
-            height="137"
-            alt={name}
-          />
-          <div className="modal__info-wrapper">
-            <h3 className="modal__product-name title title--little title--uppercase">Гитара {name}</h3>
-            <p className="modal__product-params modal__product-params--margin-11">Артикул: {vendorCode}</p>
-            <p className="modal__product-params">{GuitarDictionary[type]}, {stringCount} струнная</p>
-            <p className="modal__price-wrapper">
-              <span className="modal__price">Цена:</span>
-              <span className="modal__price">{formatPrice(price)}</span>
-            </p>
-          </div>
-        </div>
+        <ModalInfo
+          name={name}
+          previewImg={previewImg}
+          price={price}
+          stringCount={stringCount}
+          type={type}
+          vendorCode={vendorCode}
+        />
         <div className="modal__button-container">
           <button
             type="button"

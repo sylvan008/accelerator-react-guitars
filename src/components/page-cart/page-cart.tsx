@@ -8,11 +8,19 @@ import {MessageType} from '../../utils/const/message';
 import {CouponMessage} from '../../utils/const/cart';
 import {postCoupon} from '../../store/api-action';
 import {ThunkAppDispatch} from '../../types/actionType';
-import {addAppliedCoupon, addDiscount, removeCartItemAll} from '../../store/action';
+import {
+  addAppliedCoupon,
+  addCartItem,
+  addCartItems,
+  addDiscount,
+  removeCartItem,
+  removeCartItemAll
+} from '../../store/action';
 import CartItem from '../cart-item/cart-item';
 import MainLayout from '../layouts/main-layout/main-layout';
 import Loader from '../loader/loader';
 import InputMessage from '../input-message/input-message';
+import ModalCartItemRemove from '../modal-cart-item-remove/modal-cart-item-remove';
 
 function PageCart(): JSX.Element {
   const dispatch = useDispatch();
@@ -24,6 +32,7 @@ function PageCart(): JSX.Element {
   const [coupon, setCoupon] = useState(appliedCoupon);
   const [isCouponError, setIsCouponError] = useState(false);
   const [isCouponSuccess, setIsCouponSuccess] = useState(Boolean(appliedCoupon));
+  const [activeItemId, setActiveItemId] = useState<number | null>(null);
 
   if (!isCatalogLoad) {
     return <Loader className="page__loader" />;
@@ -36,9 +45,9 @@ function PageCart(): JSX.Element {
   const discountClasses = ['cart__total-value', discountInfo ? 'cart__total-value--bonus' : ''].join(' ').trim();
   const minusSymbol = discountInfo ? '-' : '';
 
-  const onGuitarRemove = (guitarId: number) => dispatch(removeCartItemAll(guitarId));
-
   const onCouponChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsCouponSuccess(false);
+    setIsCouponError(false);
     const value = event.target.value.trim();
     setCoupon(value);
   };
@@ -64,6 +73,31 @@ function PageCart(): JSX.Element {
       });
   };
 
+  const onItemRemove = (guitarId: number) => {
+    setActiveItemId(guitarId);
+  };
+
+  const onItemsChange = (guitarId: number, guitarCount: number) => {
+    const items = new Array(guitarCount).fill(guitarId);
+    dispatch(addCartItems(items));
+  };
+
+  const onDecriesQuantity = (guitarId: number) => {
+    if (itemCount[guitarId] === 1) {
+      setActiveItemId(guitarId);
+      return;
+    }
+    dispatch(removeCartItem(guitarId));
+  };
+  const onIncreaseQuantity = (guitarId: number) => dispatch(addCartItem(guitarId));
+
+  const onItemRemoveModalClose = () => setActiveItemId(null);
+  const onConfirmRemove = (guitarId: number) => {
+    dispatch(removeCartItemAll(guitarId));
+  };
+
+  const selectedItem = guitars.find((guitar) => guitar.id === activeItemId);
+
   return (
     <MainLayout>
       <main className="page-content">
@@ -87,7 +121,10 @@ function PageCart(): JSX.Element {
                 key={guitar.id}
                 guitar={guitar}
                 count={itemCount[guitar.id]}
-                onItemRemove={onGuitarRemove}
+                onItemRemove={onItemRemove}
+                onItemsCountChange={onItemsChange}
+                onDecriesQuantity={onDecriesQuantity}
+                onIncreaseQuantity={onIncreaseQuantity}
               />
             ))}
 
@@ -112,8 +149,12 @@ function PageCart(): JSX.Element {
                       value={coupon}
                       onChange={onCouponChange}
                     />
-                    {isCouponSuccess && <InputMessage text={CouponMessage.Success} type={MessageType.Success}/>}
-                    {isCouponError && <InputMessage text={CouponMessage.Error} type={MessageType.Error}/>}
+                    {isCouponSuccess && (
+                      <InputMessage text={CouponMessage.Success} type={MessageType.Success}/>
+                    )}
+                    {isCouponError && (
+                      <InputMessage text={CouponMessage.Error} type={MessageType.Error}/>
+                    )}
                   </div>
                   <button type="submit" className="button button--big coupon__button">Применить</button>
                 </form>
@@ -136,6 +177,13 @@ function PageCart(): JSX.Element {
             </div>
           </div>
         </div>
+        {selectedItem && (
+          <ModalCartItemRemove
+            guitar={selectedItem}
+            onClose={onItemRemoveModalClose}
+            onConfirmRemove={onConfirmRemove}
+          />
+        )}
       </main>
     </MainLayout>
   );

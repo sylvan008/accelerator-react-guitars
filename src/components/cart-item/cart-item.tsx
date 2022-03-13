@@ -2,33 +2,38 @@ import {Guitar} from '../../types/guitar';
 import {replaceImagePath} from '../../utils/utils';
 import {GuitarDictionary} from '../../utils/const/locale';
 import {formatPrice} from '../../utils/format';
-import {useDispatch} from 'react-redux';
-import {addCartItem, addCartItems, removeCartItem} from '../../store/action';
 import {ChangeEvent} from 'react';
 
 type PropsType = {
   count: number,
   guitar: Guitar,
-  onItemRemove: (itemId: number) => void,
+  onItemRemove: (guitarId: number) => void,
+  onItemsCountChange: (guitarId: number, count: number) => void,
+  onIncreaseQuantity: (guitarId: number) => void,
+  onDecriesQuantity: (guitarId: number) => void,
 };
 
 function CartItem(props: PropsType): JSX.Element {
-  const {count, guitar, onItemRemove} = props;
-  const dispatch = useDispatch();
+  const {
+    count,
+    guitar,
+    onItemRemove,
+    onItemsCountChange,
+    onDecriesQuantity,
+    onIncreaseQuantity,
+  } = props;
 
   const {id, name, previewImg, price, stringCount, type, vendorCode} = guitar;
 
   const guitarFullName = `${GuitarDictionary[type]} ${name}`;
 
-  const onDecriesQuantity = () => dispatch(removeCartItem(id));
-  const onIncreaseQuantity = () => dispatch(addCartItem(id));
-  const onItemsChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const newCount = parseInt(event.target.value, 10);
-    const items = new Array(newCount).fill(id);
-    dispatch(addCartItems(items));
-  };
-  const itemRemoveHandler = () => {
-    onItemRemove(id);
+  const decriesQuantityHandler = () => onDecriesQuantity(id);
+  const increaseQuantityHandler = () => onIncreaseQuantity(id);
+  const itemRemoveHandler = () => onItemRemove(id);
+
+  const changeItemCountHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const newCount = parseInt(event.target.value, 10) || 1;
+    onItemsCountChange(id, newCount);
   };
 
   return (
@@ -60,7 +65,7 @@ function CartItem(props: PropsType): JSX.Element {
         <button
           className="quantity__button"
           aria-label="Уменьшить количество"
-          onClick={onDecriesQuantity}
+          onClick={decriesQuantityHandler}
         >
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-minus" />
@@ -74,12 +79,12 @@ function CartItem(props: PropsType): JSX.Element {
           id="2-count"
           name="2-count"
           max="99"
-          onChange={onItemsChange}
+          onChange={changeItemCountHandler}
         />
         <button
           className="quantity__button"
           aria-label="Увеличить количество"
-          onClick={onIncreaseQuantity}
+          onClick={increaseQuantityHandler}
         >
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-plus" />
