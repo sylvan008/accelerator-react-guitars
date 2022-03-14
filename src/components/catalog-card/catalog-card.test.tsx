@@ -6,11 +6,14 @@ import {Router} from 'react-router-dom';
 
 describe('Component: CatalogCard', () => {
   const guitarMock = createMockGuitar();
-
   const history = createMemoryHistory();
+
+  const onBuyClick = jest.fn();
+  const isInCart = false;
+
   const fakeApp = (
     <Router history={history}>
-      <CatalogCard guitar={guitarMock} />
+      <CatalogCard guitar={guitarMock} isInCart={isInCart} onBuyClick={onBuyClick} />
     </Router>
   );
 

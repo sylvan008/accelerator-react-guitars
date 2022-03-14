@@ -3,6 +3,12 @@ import {State} from '../store/root-reducer';
 import {AxiosInstance} from 'axios';
 
 export enum ActionType {
+  AddDiscount = 'cart/add-discount',
+  AddCartItem = 'cart/add-cart-item',
+  AddCartItems = 'cart/add-cart-items',
+  AddAppliedCoupon = 'cart/add-applied-coupon',
+  RemoveCartItem = 'cart/remove-cart-item',
+  RemoveCartItemAll = 'cart/remove-cart-item-all',
   SetLoadDataError = 'app/set_load_data_error',
   SetGuitars = 'catalog/set_guitars',
   SetPriceBounds = 'catalog/set_price_bounds',

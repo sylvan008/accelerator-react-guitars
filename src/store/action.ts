@@ -3,6 +3,7 @@ import {ActionType} from '../types/actionType';
 import {Guitar} from '../types/guitar';
 import {Order, SortType} from '../types/sort';
 import {ReviewServer} from '../types/review';
+import {CartItem} from '../types/store';
 
 const setGuitars = createAction(
   ActionType.SetGuitars,
@@ -45,7 +46,55 @@ const setComments = createAction(
   }),
 );
 
+const addCartItem = createAction(
+  ActionType.AddCartItem,
+  (cartItem: CartItem) => ({
+    payload: cartItem,
+  }),
+);
+
+const addCartItems = createAction(
+  ActionType.AddCartItems,
+  (cartItem: CartItem[]) => ({
+    payload: cartItem,
+  }),
+);
+
+const addAppliedCoupon = createAction(
+  ActionType.AddAppliedCoupon,
+  (coupon: string) => ({
+    payload: coupon,
+  }),
+);
+
+const addDiscount = createAction(
+  ActionType.AddDiscount,
+  (discount: number) => ({
+    payload: discount,
+  }),
+);
+
+const removeCartItem = createAction(
+  ActionType.RemoveCartItem,
+  (guitarId: number) => ({
+    payload: guitarId,
+  }),
+);
+
+const removeCartItemAll = createAction(
+  ActionType.RemoveCartItemAll,
+  (guitarId: number) => ({
+    payload: guitarId,
+  }),
+);
+
 export {
+  addAppliedCoupon,
+  addCartItem,
+  addCartItems,
+  removeCartItem,
+  removeCartItemAll,
+  addDiscount,
   setGuitar,
   setGuitars,
   setCatalogLoad,

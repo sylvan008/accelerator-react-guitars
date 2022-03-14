@@ -17,6 +17,9 @@ const store = mockStore({
   [NameSpace.App]: {
     isLoadDataError: false,
   },
+  [NameSpace.Cart]: {
+    items: [],
+  },
 });
 
 const history = createMemoryHistory();

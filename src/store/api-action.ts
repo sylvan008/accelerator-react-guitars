@@ -1,10 +1,11 @@
-import {setComments, setGuitar, setGuitars} from './action';
+import {addDiscount, setComments, setGuitar, setGuitars} from './action';
 import {ApiRoute, RouteParam} from '../utils/const/app-route';
 import {ThunkActionResult} from '../types/actionType';
 import {Guitar} from '../types/guitar';
 import {replaceRouteParam} from '../utils/utils';
 import {ReviewPost, ReviewServer} from '../types/review';
 import {generatePath} from 'react-router-dom';
+import {CouponPost} from '../types/coupon';
 
 const loadGuitars = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -31,9 +32,16 @@ const postComment = (comment: ReviewPost): ThunkActionResult =>
     await api.post(ApiRoute.AddComment, comment);
   };
 
+const postCoupon = (coupon: CouponPost): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.post(ApiRoute.ApplyCoupon, coupon);
+    dispatch(addDiscount(data));
+  };
+
 export {
   loadComments,
   loadGuitar,
   loadGuitars,
-  postComment
+  postComment,
+  postCoupon
 };

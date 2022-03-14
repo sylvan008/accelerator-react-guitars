@@ -5,6 +5,7 @@ const PageName = {
   Main: 'Main',
   Catalog: 'Catalog',
   Product: 'Product',
+  Cart: 'Cart',
 } as const;
 
 type PageName = keyof typeof PageName;
@@ -32,6 +33,13 @@ function initCrumbs() {
       .concat({
         to: AppRoute.Catalog,
         text: 'Каталог',
+      }));
+
+  setCrumb(PageName.Cart, () =>
+    Breadcrumb[PageName.Catalog]()
+      .concat({
+        to: AppRoute.Cart,
+        text: 'Корзина',
       }));
 
   setCrumb(PageName.Product, (options) => {

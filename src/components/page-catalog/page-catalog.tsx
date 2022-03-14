@@ -1,5 +1,5 @@
-import {useEffect, useMemo} from 'react';
-import {useSelector} from 'react-redux';
+import {useEffect, useMemo, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {getGuitars, getIsCatalogLoad, getPriceBounds} from '../../store/catalog-process/selectors';
 import {sortingItems} from '../../utils/const/sorting';
@@ -11,7 +11,8 @@ import {
   checkSortDirection,
   convertSearchStringToArray,
   getTotalPages,
-  parsePageNumberParam, replaceRouteParam,
+  parsePageNumberParam,
+  replaceRouteParam,
   sliceElementsForPage,
   sortGuitars,
   updateSortDependency
@@ -33,12 +34,16 @@ import CatalogSort from '../catalog-sort/catalog-sort';
 import Pagination from '../pagination/pagination';
 import CatalogList from '../catalog-list/catalog-list';
 import Loader from '../loader/loader';
+import ModalAddToCart from '../modal-add-to-cart/modal-add-to-cart';
+import ModalAddCartSuccess from '../modal-add-cart-success/modal-add-cart-success';
+import {addCartItem} from '../../store/action';
 
 type RouteParams = {
   pageNumber: string,
 };
 
 function PageCatalog(): JSX.Element {
+  const dispatch = useDispatch();
   const routeParams: RouteParams = useParams();
   const pageNumber = routeParams.pageNumber
     ? parsePageNumberParam(routeParams.pageNumber)
@@ -65,6 +70,23 @@ function PageCatalog(): JSX.Element {
   let priceMinSearch = Number(searchParams.get(SearchParam.PriceLte)) || 0;
   let priceMaxSearch = Number(searchParams.get(SearchParam.PriceGte)) || 0;
   [priceMinSearch, priceMaxSearch] = checkMinMaxPriceValue(priceBounds, priceMinSearch, priceMaxSearch);
+
+  const [selectedGuitarId, setSelectedGuitarId] = useState<number | null>(null);
+  const [isAddCartSuccessShow, setIsAddCartSuccessShow] = useState(false);
+
+  const selectedGuitar = guitars.find((guitar) => guitar.id === selectedGuitarId);
+  const onBuyClick = (guitarId: number) => setSelectedGuitarId(guitarId);
+  const onCartItemAdd = () => {
+    if (!selectedGuitarId) {
+      return;
+    }
+    dispatch(addCartItem(selectedGuitarId));
+    setSelectedGuitarId(null);
+    setIsAddCartSuccessShow(true);
+  };
+  const onCartItemAddModalClose = () => setSelectedGuitarId(null);
+
+  const onModalCartSuccessClose = () => setIsAddCartSuccessShow(false);
 
   const [
     sortType,
@@ -128,10 +150,20 @@ function PageCatalog(): JSX.Element {
               onSortTypeChange={onSortTypeChange}
               sortingItems={sortingItems}
             />
-            <CatalogList guitars={catalogCards} />
+            <CatalogList guitars={catalogCards} onBuyClick={onBuyClick} />
             <Pagination pageNumber={pageNumber} totalPages={totalPages} />
           </div>
         </div>
+        {selectedGuitar && (
+          <ModalAddToCart
+            guitar={selectedGuitar}
+            onCartItemAdd={onCartItemAdd}
+            onClose={onCartItemAddModalClose}
+          />
+        )}
+        {isAddCartSuccessShow && (
+          <ModalAddCartSuccess onClose={onModalCartSuccessClose} onContinueClick={onModalCartSuccessClose} />
+        )}
       </main>
     </MainLayout>
   );
