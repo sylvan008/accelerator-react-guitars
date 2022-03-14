@@ -4,6 +4,9 @@ import {GuitarDictionary} from '../../utils/const/locale';
 import {formatPrice} from '../../utils/format';
 import {ChangeEvent} from 'react';
 
+const ITEMS_MIN = 1;
+const ITEMS_MAX = 99;
+
 type PropsType = {
   count: number,
   guitar: Guitar,
@@ -28,11 +31,19 @@ function CartItem(props: PropsType): JSX.Element {
   const guitarFullName = `${GuitarDictionary[type]} ${name}`;
 
   const decriesQuantityHandler = () => onDecriesQuantity(id);
-  const increaseQuantityHandler = () => onIncreaseQuantity(id);
+  const increaseQuantityHandler = () => {
+    if (count >= ITEMS_MAX) {
+      return;
+    }
+    onIncreaseQuantity(id);
+  };
   const itemRemoveHandler = () => onItemRemove(id);
 
   const changeItemCountHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const newCount = parseInt(event.target.value, 10) || 1;
+    let newCount = parseInt(event.target.value, 10) || ITEMS_MIN;
+    if (newCount > ITEMS_MAX) {
+      newCount = ITEMS_MAX;
+    }
     onItemsCountChange(id, newCount);
   };
 
@@ -78,7 +89,7 @@ function CartItem(props: PropsType): JSX.Element {
           placeholder="1"
           id="2-count"
           name="2-count"
-          max="99"
+          max={ITEMS_MAX}
           onChange={changeItemCountHandler}
         />
         <button
