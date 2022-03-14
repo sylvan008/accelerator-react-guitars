@@ -68,7 +68,7 @@ const addAppliedCoupon = createAction(
 );
 
 const addDiscount = createAction(
-  ActionType.AddCoupon,
+  ActionType.AddDiscount,
   (discount: number) => ({
     payload: discount,
   }),

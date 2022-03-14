@@ -3,7 +3,7 @@ import {State} from '../store/root-reducer';
 import {AxiosInstance} from 'axios';
 
 export enum ActionType {
-  AddCoupon = 'cart/add-coupon',
+  AddDiscount = 'cart/add-discount',
   AddCartItem = 'cart/add-cart-item',
   AddCartItems = 'cart/add-cart-items',
   AddAppliedCoupon = 'cart/add-applied-coupon',
