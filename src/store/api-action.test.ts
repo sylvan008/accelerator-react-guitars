@@ -2,12 +2,12 @@ import {createApi} from '../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import {ApiRoute} from '../utils/const/app-route';
 import {createMockGuitar} from '../utils/mock/guitar-mock';
-import {loadComments, loadGuitars} from './api-action';
+import {loadComments, loadGuitars, postCoupon} from './api-action';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {State} from './root-reducer';
 import {Action} from '@reduxjs/toolkit';
 import thunk, {ThunkDispatch} from 'redux-thunk';
-import {setComments, setGuitars} from './action';
+import {addDiscount, setComments, setGuitars} from './action';
 import {createMockReview} from '../utils/mock/comment-mock';
 import {ReviewServer} from '../types/review';
 import {generatePath} from 'react-router-dom';
@@ -60,6 +60,21 @@ describe('Async action', () => {
 
     expect(store.getActions()).toEqual([
       setComments(comments),
+    ]);
+  });
+
+  it('should should dispatch addDiscount when POST postCoupon', async () => {
+    const discount = 10;
+    const coupon = 'some-coupon';
+    const couponPost = {
+      coupon,
+    };
+
+    mockApi.onPost(ApiRoute.ApplyCoupon, couponPost).reply(OK, discount);
+    await store.dispatch(postCoupon(couponPost));
+
+    expect(store.getActions()).toEqual([
+      addDiscount(discount),
     ]);
   });
 });

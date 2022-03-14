@@ -34,3 +34,11 @@ export type Product = {
   guitar: Guitar | null,
   comments: ReviewServer[],
 };
+
+export type CartItem = number;
+
+export type Cart = {
+  appliedCoupon: string,
+  items: CartItem[],
+  discount: number,
+};
