@@ -1,8 +1,8 @@
+import {ChangeEvent, useState} from 'react';
 import {Guitar} from '../../types/guitar';
 import {replaceImagePath} from '../../utils/utils';
 import {GuitarDictionary} from '../../utils/const/locale';
 import {formatPrice} from '../../utils/format';
-import {ChangeEvent} from 'react';
 
 const ITEMS_MIN = 1;
 const ITEMS_MAX = 99;
@@ -26,6 +26,8 @@ function CartItem(props: PropsType): JSX.Element {
     onIncreaseQuantity,
   } = props;
 
+  const [quantity, setQuantity] = useState<number | string>(count);
+
   const {id, name, previewImg, price, stringCount, type, vendorCode} = guitar;
 
   const guitarFullName = `${GuitarDictionary[type]} ${name}`;
@@ -40,10 +42,11 @@ function CartItem(props: PropsType): JSX.Element {
   const itemRemoveHandler = () => onItemRemove(id);
 
   const changeItemCountHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    let newCount = parseInt(event.target.value, 10) || ITEMS_MIN;
-    if (newCount > ITEMS_MAX) {
-      newCount = ITEMS_MAX;
-    }
+    const value = parseInt(event.target.value, 10);
+
+    setQuantity(value ? Math.min(value, ITEMS_MAX) : '');
+    const newCount = Math.min(value || ITEMS_MIN, ITEMS_MAX);
+
     onItemsCountChange(id, newCount);
   };
 
@@ -83,7 +86,7 @@ function CartItem(props: PropsType): JSX.Element {
           </svg>
         </button>
         <input
-          value={count}
+          value={quantity}
           className="quantity__input"
           type="number"
           placeholder="1"
