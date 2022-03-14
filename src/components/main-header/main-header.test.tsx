@@ -14,6 +14,9 @@ describe('Component: MainHeader', () => {
     [NameSpace.Catalog]: {
       guitars: [],
     },
+    [NameSpace.Cart]: {
+      items: [],
+    },
   });
 
   const fakeApp = (

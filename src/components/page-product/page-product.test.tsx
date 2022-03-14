@@ -30,6 +30,9 @@ describe('Component: PageProduct', () => {
       guitar,
       comments,
     },
+    [NameSpace.Cart]: {
+      items: [],
+    },
   });
   const history = createMemoryHistory();
 

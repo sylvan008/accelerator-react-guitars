@@ -16,6 +16,9 @@ describe('Component: MainLayout', () => {
       priceBounds: [0, 0],
       isCatalogLoad: true,
     },
+    [NameSpace.Cart]: {
+      items: [],
+    },
   });
 
   const fakeApp = (

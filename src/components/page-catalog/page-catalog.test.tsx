@@ -21,6 +21,9 @@ describe('Component: PageCatalog', () => {
       priceBounds: [1000, 30000],
       isCatalogLoad: true,
     },
+    [NameSpace.Cart]: {
+      items: [],
+    },
   });
 
   const fakeApp = (

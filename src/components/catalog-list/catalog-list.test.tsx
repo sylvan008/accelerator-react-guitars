@@ -3,8 +3,19 @@ import CatalogList from './catalog-list';
 import {createMockGuitar} from '../../utils/mock/guitar-mock';
 import {Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
+import {getMockStore} from '../../utils/mock/helpers';
+import {NameSpace} from '../../store/root-reducer';
+import {Provider} from 'react-redux';
 
 describe('Component: CatalogList', () => {
+  const mockStore = getMockStore();
+
+  const store = mockStore({
+    [NameSpace.Cart]: {
+      items: [],
+    },
+  });
+
   const guitars = [
     createMockGuitar(),
     createMockGuitar(),
@@ -15,9 +26,11 @@ describe('Component: CatalogList', () => {
   const onBuyClick = jest.fn();
 
   const fakeApp = (
-    <Router history={history}>
-      <CatalogList guitars={guitars} onBuyClick={onBuyClick} />
-    </Router>
+    <Provider store={store}>
+      <Router history={history}>
+        <CatalogList guitars={guitars} onBuyClick={onBuyClick} />
+      </Router>
+    </Provider>
   );
 
   it('should render correctly', () => {
